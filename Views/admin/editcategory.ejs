@@ -17,7 +17,7 @@
             <div class="card-body p-5">
               <h2 class="text-uppercase text-center mb-3">Edit category</h2>
               
-              <form method="post" action="/edit_category">
+              <form method="post" action="/edit-category">
                 <!-- <p class="d-flex justify-content-center mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/signup"
                     style="color: #393f81;">Sign up</a></p> -->
                 <div class="form-outline mb-4">
@@ -40,15 +40,10 @@
                     <label class="form-label" for="form3Example4cg" >Password</label>
                   <input type="password" name="password" class="form-control form-control-lg" required/>
                 </div> -->
-
-                <div class="w-100">
-                  <p style="color: red;"><%=locals.wrong%></p>
-                  <p style="color: green;"><%=locals.success%></p>
-                </div>
-
+                <p style="color: red;"> <%= locals.wrong %> </p>
                 <div class="d-flex justify-content-center">
                   <button type="submit"
-                    class="btn btn-outline-info btn-block btn-lg gradient-custom-4 text-body">Edit</button>
+                    class="btn btn-outline-info btn-block btn-lg gradient-custom-4 text-body">Update</button>
                 </div>
                 <a href="/category">back</a>
 

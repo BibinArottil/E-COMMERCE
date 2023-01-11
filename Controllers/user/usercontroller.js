@@ -1,40 +1,27 @@
-const User=require("../Model/user/userModel")
-const mailer=require('../Utils/otp')
+const User=require("../../Model/user/userModel")
+const Product=require("../../Model/admin/productModel")
+// const Category=require("../../Model/admin/categoryModel")
+const mailer=require('../../Utils/otp')
 const bcrypt=require('bcrypt')
+const { default: mongoose } = require("mongoose")
 
 const userLogin=(req,res)=>{
-    if(req.session.user){
-        res.redirect('/')
-    }else{
-        res.render('../Views/user/userLogin.ejs')
-    }
+    res.render('../Views/user/userLogin.ejs')
 }
 
-// const userHome=(req,res)=>{
-//     if(req.session.user){
-//         res.render('../Views/user/home.ejs')
-//     }else{
-//         res.redirect('/')
-//     }
-// }
-
 const loadSignUp=(req,res)=>{
-    if(req.session.user){
-        res.redirect('/')
-    }else{
-        res.render('../Views/user/userSignUp.ejs')
-    }
+    res.render('../Views/user/userSignUp.ejs')
 }
 
 const insertUser=async(req,res)=>{
     try {
         userData=req.body
         const email=req.body.email;
-        // const user=await User.findOne({email:email})
         const user=await User.findOne({email})
         if(user){
             res.render('../Views/user/userSignUp.ejs',{error:"E-mail already exist"})
         }else{
+            
             let mailDetails={
                 from:'techinfobibin@gmail.com',
                 to:req.body.email,
@@ -61,6 +48,7 @@ const otpVerfication=async(req,res)=>{
     try {
         if(req.body.otp==mailer.OTP){
             console.log(userData.email);
+            // const passwordHash=await bcrypt.hash(userData.password,10)
             const passwordHash=await bcrypt.hash(userData.password,10)
             const user1=new User({
                 name:userData.name,
@@ -68,29 +56,27 @@ const otpVerfication=async(req,res)=>{
                 email:userData.email,
                 password:passwordHash
             })
-            // user1=new User(userData)
             await user1.save()
-            res.redirect('/user_login')
+            res.redirect('/user-login')
         }else{
             res.render('../Views/user/otp.ejs',{error:"Invalid OTP"})
         }
     } catch (error) {
         console.log(error);
     }
-    // res.render("../Views/user/otp.ejs")
 }
 
 const userVerification=async(req,res)=>{
   try {
+    // const id=req.body.id
     let email=req.body.email
     let password=req.body.password
 
     const user=await User.findOne({email:email})
     if(user){
-        // if(email==user.email && password==user.password){
         const passwordMatch=await bcrypt.compare(password,user.password)
         if(email==user.email && passwordMatch==true){
-            req.session.user=req.body.email
+            req.session.user=user._id
             console.log("user session created");
             res.redirect('/')
         }else{
@@ -104,15 +90,29 @@ const userVerification=async(req,res)=>{
   }
 }
 
-const loadHome=(req,res)=>{
-    validUser=req.session.user
-    if(req.session.user){
-        console.log("logined");
-        res.render('../Views/user/home.ejs',{validUser})
-    }else{
-        console.log("Not logined");
-        res.render('../Views/user/home.ejs',{validUser})
-    }
+const loadHome=async(req,res)=>{
+        try {
+            existUser=req.session.user
+            const userId=req.session.user
+            const userData=await User.findById(userId)
+            // const cart= await User.findOne({_id:userId}).populate("cart.items.productId")
+            // const cartData=cart.cart.items
+            const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+            // console.log(cart.length,'********');
+            // Product.find({},(err,productDetails)=>{
+            //     if(err){
+            //         console.log(err);
+            //     }else{
+            //         res.render('../Views/user/home.ejs',{details:productDetails,existUser,cartLenght,userData})
+            //     }
+            // })
+            Product.find().sort({_id:-1}).then((result)=>{
+                res.render('../Views/user/home.ejs',{details:result,existUser,cartLenght,userData})
+
+            })
+        } catch (error) {
+            console.log(error);
+        }   
 }
 
 const userSignUp=(req,res)=>{

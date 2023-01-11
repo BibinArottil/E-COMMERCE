@@ -11,6 +11,7 @@
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <link href="/Public/admin//css/style.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
     <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
@@ -42,11 +43,12 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="/admin_logout">Logout</a></li>
+                    <li><a class="dropdown-item" href="/admin-logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
     </nav>
+    
     <div id="layoutSidenav">
         <div id="layoutSidenav_nav">
             <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
@@ -89,7 +91,6 @@
         </div>
         <div id="layoutSidenav_content">
             <main>
-                
                     <div class="container-fluid px-4 mt-3">
                         <h1 class="mb-4">User Management</h1>
                         <% if(details!=null){ %> 
@@ -117,9 +118,9 @@
                                       </td>
                                     <td>
                                         <% if(user.status==true) {%>
-                                            <a class="btn btn-danger" style="width: 90px;" href="/admin_panel?id=<%= user._id%>" role="button">Block</a>
+                                            <a class="btn btn-danger" id="block" style="width: 90px;" href="/admin-panel?id=<%= user._id%>" role="button">Block</a>
                                         <%}else{%>
-                                            <a class="btn btn-success" style="width: 90px;" href="/admin_panel?id=<%= user._id%>" role="button">Unblock</a>
+                                            <a class="btn btn-success" style="width: 90px;" href="/admin-panel?id=<%= user._id%>" role="button">Unblock</a>
                                         <%}%>
                                     </td>
                                 </tr>
@@ -137,7 +138,6 @@
                         </table>
                         <% } %> 
                      </div>
-    
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
@@ -153,6 +153,29 @@
             </footer>
         </div>
     </div>
+    <script>
+        document.getElementById('block').addEventListener('click',function(){
+            Swal.fire({
+  title: 'Are you sure?',
+  text: "You won't be able to revert this!",
+  icon: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes, delete it!'
+}).then((result) => {
+  if (result.isConfirmed) {
+    Swal.fire(
+      'Deleted!',
+      'Your file has been deleted.',
+      'success'
+    )
+  }
+})
+        })
+
+
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/Public/admin/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
@@ -164,6 +187,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        if ( window.history.replaceState ) {
+window.history.replaceState( null, null, window.location.href );
+}
+  </script>
 </body>
 
 </html>

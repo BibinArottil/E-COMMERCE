@@ -1,11 +1,12 @@
 const nodemailer=require("nodemailer")
+require('dotenv').config()
 
 module.exports={
     mailTransporter:nodemailer.createTransport({
         service:'gmail',
         auth:{
-            user:'techinfobibin@gmail.com',
-            pass:'lszmdwyfdhsoruyv'
+            user:process.env.AUTH_EMAIL,
+            pass:process.env.AUTH_PASSWORD
         },
     }),
     OTP:`${Math.floor(1000+Math.random()*9000)}`,

@@ -41,7 +41,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="admin_logout">Logout</a></li>
+                    <li><a class="dropdown-item" href="admin-logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -57,7 +57,7 @@
                             Dashboard
                         </a>
 
-                        <a class="nav-link" href="/user_manage">
+                        <a class="nav-link" href="/user-manage">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Users
                         </a>
@@ -68,6 +68,7 @@
                             Product
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
+                        
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
@@ -75,6 +76,10 @@
                                 <a class="nav-link" href="/category">Category Management</a>
                             </nav>
                         </div>
+                        <a class="nav-link" href="/order-manage">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            Orders
+                        </a>
 
 
                         <!-- <a class="nav-link" href="tables.html">
@@ -179,7 +184,11 @@
     <script src="/Public/admin/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="/Public/admin/js/datatables-sample-demo.js"></script>
-    
+    <script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+  </script>
 
 </body>
 

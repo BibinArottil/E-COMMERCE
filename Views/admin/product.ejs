@@ -42,7 +42,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="/admin_logout">Logout</a></li>
+                    <li><a class="dropdown-item" href="/admin-logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -58,7 +58,7 @@
                             Dashboard
                         </a>
 
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="user-manage">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Users
                         </a>
@@ -96,23 +96,35 @@
                             <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content">
                                 <div class="modal-header">
-                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Add category</h1>
+                                  <h1 class="modal-title fs-5" id="exampleModalLabel">Add product</h1>
                                   <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                  <form action="/insert_product" method="post" enctype="multipart/form-data">
+                                  <form action="/insert-product" method="post" enctype="multipart/form-data">
                                     <div class="mb-3">
                                       <label for="recipient-name" class="col-form-label">Image</label>
-                                      <input type="file" name="image" class="form-control">
+                                      <input type="file" name="image" class="form-control" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="recipient-name" class="col-form-label">Name</label>
                                         <input type="text" name="name" class="form-control">
                                       </div>
-                                      <div class="mb-3">
+                                    <div class="mb-3">
+                                        <label for="recipient-name" class="col-form-label">Category</label>
+                                        <select name="category" id="new" class="form-select" aria-label="Default select example">
+                                            <% if(category!=null) {%>
+                                                <% category.forEach((category)=>{ %>
+                                                    <option value="<%= category.name %> "><%= category.name %> </option>
+                                                <% }) %>  
+                                            <% } %> 
+                                        </select>
+                                    </div>
+                                        
+                                    
+                                      <!-- <div class="mb-3">
                                         <label for="recipient-name" class="col-form-label">Category</label>
                                         <input type="text" name="category" class="form-control">
-                                      </div>
+                                      </div> -->
                                       <div class="mb-3">
                                         <label for="recipient-name" class="col-form-label">Description</label>
                                         <input type="text" name="description" class="form-control">
@@ -154,24 +166,28 @@
                                     <td><img src="/Public/admin/productimage/<%= product.image %>"  style="width: 100px; height:100px; object-fit:contain;" alt=""> </td>
                                     <td><%= product.name %> </td>
                                     <td><%= product.category %> </td>
-                                    <td><%= product.description %> </td>
+                                    <td style="width: 350px;"><%= product.description %> </td>
                                     <td><%= product.price %> </td>
                                     <td><%= product.stock %> </td>
                                     <td>
-                                        
+                                        <% if(product.status==true) {%>
+                                            <p class="text-success"  style="width: 70px;">Active</p>
+                                        <% }else{ %>
+                                            <p class="text-danger"  style="width: 70px;">Blocked</p>
+                                        <% } %>   
+                                    </td>
+                                    <td>
+                                        <% if(product.status==true){ %>
+                                            <a class="btn btn-danger" style="width: 80px;" href="/action-product?id=<%= product._id %>" role="button">Delete</a>
+                                        <% }else{ %>
+                                            <a class="btn btn-success" style="width: 80px;" href="/action-product?id=<%= product._id %>" role="button">Restore</a>
+                                        <% } %>
+                                        <a class="btn btn-primary" style="width: 70px;" href="/edit-product?id=<%= product._id %>" role="button">Edit</a>
+                                        <!-- <a class="btn btn-danger" style="width: 70px;" href="/delete-product?id=<%= product._id %>" role="button">Delete</a> -->
                                     </td>
                                 </tr>
                                <% }) %> 
                             </tbody>
-                            <!-- <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Phone No:</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot> -->
                         </table>
                         <% } %> 
                      </div>
@@ -202,6 +218,11 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        if ( window.history.replaceState ) {
+window.history.replaceState( null, null, window.location.href );
+}
+  </script>
 </body>
 
 </html>

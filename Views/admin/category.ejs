@@ -43,7 +43,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="/admin_logout">Logout</a></li>
+                    <li><a class="dropdown-item" href="/admin-logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -59,7 +59,7 @@
                             Dashboard
                         </a>
 
-                        <a class="nav-link" href="/user_manage">
+                        <a class="nav-link" href="/user-manage">
                             <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                             Users
                         </a>
@@ -93,7 +93,7 @@
                 
                     <div class="container-fluid px-4 mt-3">
                         <h1 class="mb-4">Category Management</h1>
-                        <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add category</button>
+                        <!-- <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add category</button>
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -102,10 +102,10 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/insert_category" method="post">
+        <form action="/insert-category" method="post">
           <div class="mb-3">
             <label for="recipient-name" class="col-form-label">New category</label>
-            <input type="text" name="category" class="form-control" id="recipient-name">
+            <input type="text" name="category" class="form-control" id="recipient-name" required>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -116,8 +116,34 @@
       
     </div>
   </div>
-</div>
+</div> -->
+                <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-whatever="@mdo">Add category</button>
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel">Add category</h1>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form action="/insert-category" method="post">
+                            <div class="mb-3">
+                              <label for="recipient-name" class="col-form-label">New category</label>
+                              <input type="text" name="category" class="form-control" id="recipient-name" required>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Add</button>
+                            </div>
+                          </form>
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+
                         <!-- <a class="btn btn-info mb-3" href="/edit_category" role="button">Add category</a> -->
+                        <p class="text-center" style="color: red;"><b><%= locals.wrong %></b></p>
                         <% if(details!=null){ %> 
                         <table id="example" class="table" style="width:100%">
                             <thead>
@@ -125,7 +151,7 @@
                                     <!-- <th>No:</th> -->
                                     <th>Category Name</th>
                                     <th>Status</th>
-                                    <th>Status</th>
+                                    <!-- <th>Availability</th> -->
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -138,33 +164,20 @@
                                         <% if(category.status==true){ %>
                                             <p class="text-success"  style="width: 70px;">Active</p>
                                             <% }else{ %>
-                                                <p class="text-danger"  style="width: 70px;">Block</p>
+                                                <p class="text-danger"  style="width: 70px;">Blocked</p>
                                             <% } %>   
                                     </td>
                                     <td>
                                         <% if(category.status==true){ %>
-                                                <a class="btn btn-danger" style="width: 70px;" href="/action_category?id=<%= category._id %>" role="button">Unlist</a>
+                                                <a class="btn btn-danger" style="width: 70px;" href="/action-category?id=<%= category._id %>" role="button">Unlist</a>
                                             <% }else{ %>
-                                                <a class="btn btn-success" style="width: 70px;" href="/action_category?id=<%= category._id %>" role="button">List</a>
+                                                <a class="btn btn-success" style="width: 70px;" href="/action-category?id=<%= category._id %>" role="button">List</a>
                                         <% } %>
-                                    </td>
-                                    <td>
-                                        <a class="btn btn-primary" style="width: 70px;" href="/edit_category?id=<%= category._id %>" role="button">Edit</a>
-                                        <a class="btn btn-danger" style="width: 70px;" href="/delete_category?id=<%= category._id %>" role="button">Delete</a>      
-                                    </td>
+                                        <a class="btn btn-primary" style="width: 70px;" href="/edit-category?id=<%= category._id %>" role="button">Edit</a>
+                                    </td>          
                                 </tr>
                                 <% }) %> 
-                            </tbody>
-                            <!-- <tfoot>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Position</th>
-                                    <th>Office</th>
-                                    <th>Age</th>
-                                    <th>Start date</th>
-                                    <th>Salary</th>
-                                </tr>
-                            </tfoot> -->
+                            </tbody>                   
                         </table>
                         <% } %> 
                      </div>
@@ -195,6 +208,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script>
+        if ( window.history.replaceState ) {
+window.history.replaceState( null, null, window.location.href );
+}
+  </script>
 </body>
-
 </html>
