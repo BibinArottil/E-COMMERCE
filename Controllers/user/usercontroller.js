@@ -1,5 +1,6 @@
 const User=require("../../Model/user/userModel")
 const Product=require("../../Model/admin/productModel")
+const Wishlist=require("../../Model/user/wishlistModel")
 // const Category=require("../../Model/admin/categoryModel")
 const mailer=require('../../Utils/otp')
 const bcrypt=require('bcrypt')
@@ -97,6 +98,7 @@ const loadHome=async(req,res)=>{
             const userData=await User.findById(userId)
             // const cart= await User.findOne({_id:userId}).populate("cart.items.productId")
             // const cartData=cart.cart.items
+            const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
             const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
             // console.log(cart.length,'********');
             // Product.find({},(err,productDetails)=>{
@@ -107,7 +109,7 @@ const loadHome=async(req,res)=>{
             //     }
             // })
             Product.find().sort({_id:-1}).then((result)=>{
-                res.render('../Views/user/home.ejs',{details:result,existUser,cartLenght,userData})
+                res.render('../Views/user/home.ejs',{details:result,existUser,cartLenght,wishLenght,userData})
 
             })
         } catch (error) {

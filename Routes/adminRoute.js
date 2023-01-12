@@ -24,7 +24,8 @@ admin_router.get('/edit-product',adminRouter.editProduct)
 admin_router.post('/edit-product',upload.single('image'),adminRouter.updateProduct)
 
 const order=require('../Controllers/admin/orderManagement')
-admin_router.get('/order-manage',order.loadOrder)               
+admin_router.get('/order-manage',order.loadOrder)
+admin_router.post('/status',order.statusUpdate)               
 
 admin_router.get('/admin-logout',adminRouter.adminLogout)
 

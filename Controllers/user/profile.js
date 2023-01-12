@@ -1,4 +1,5 @@
 const User=require('../../Model/user/userModel')
+const Wishlist=require("../../Model/user/wishlistModel")
 const { default: mongoose } = require('mongoose')
 const bcrypt=require('bcrypt')
 
@@ -7,8 +8,9 @@ const loadProfile=async(req,res)=>{
         existUser=req.session.user
         const userId=req.session.user
         const userData=await User.findById(userId)
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
         const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
-    res.render('../Views/user/profile.ejs',{userData,existUser,cartLenght})
+    res.render('../Views/user/profile.ejs',{userData,existUser,cartLenght,wishLenght})
     } catch (error) {
         console.log(error);
     }
@@ -81,6 +83,9 @@ const updatePassword=async(req,res)=>{
         const passwordHash=await bcrypt.hash(req.body.newpassword,10)
         await User.updateOne({_id:req.session.user},{$set:{password:passwordHash}})
         res.render('../Views/user/changepassword.ejs',{message:"New password updated"})
+        // setTimeout(() => {
+        //     console.log('Hello World!');
+        //   }, 2000);
     } catch (error) {
         console.log(error);
     }

@@ -1,5 +1,6 @@
 const User=require('../../Model/user/userModel')
 const Order=require('../../Model/user/orderModel')
+const Wishlist=require("../../Model/user/wishlistModel")
 const { resolve } = require("path");
 const { default: mongoose } = require('mongoose');
 const { log } = require('console');
@@ -8,9 +9,13 @@ const loadOrder=async(req,res)=>{
     try {
         const userId=req.session.user
         const userData=await User.findById(userId)
+        const newOrder=await Order.find({$elematch:{user:userId}})
+        console.log(newOrder,'8888888888');
         const orderList=await Order.aggregate([{$match:{user:userId}}])
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
         console.log(orderList,"@@@@@@@@@");
         const order=await Order.find({user:userId})
+        
         const orderData=await Order.aggregate([
             {$match:{user:mongoose.Types.ObjectId(userId)}},
             {$unwind:"$products.items"},
@@ -30,7 +35,7 @@ const loadOrder=async(req,res)=>{
                 }}
         ]) 
         console.log(orderData,'&&&&&&&')
-        res.render('../Views/user/order.ejs',{orderData,userData,order})
+        res.render('../Views/user/orderlist.ejs',{orderData,userData,order,newOrder,wishLenght})
     } catch (error) {
         console.log(error);
     }

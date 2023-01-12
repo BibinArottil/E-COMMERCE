@@ -116,14 +116,15 @@
                                 <td style="width: 50px;"><%= list._id %> </td>
                                 <td><%= list.order %></td>
                                 <td style="width: 100px;">
-                                    <form action="" class="d-flex">
-                                        <select name="order" id="new" class="form-select me-3" aria-label="Default select example" style="width: 150px;">
+                                    <form action="/status" method="post" class="d-flex">
+                                        <select id="new" class="form-select me-3" name="value" aria-label="Default select example" style="width: 150px;">
                                                     <option value="Processing">Processing</option>
                                                     <option value="Packed">Packed</option>
                                                     <option value="Shipping">Shipping</option>
                                                     <option value="Delivered">Delivered</option>
                                         </select>
-                                        <button type="button" class="btn btn-dark">Update</button>
+                                        <!-- <input type="hidden" name="orderId" value="<%= list._id %>"> -->
+                                        <button type="submit" value="<%= list._id %>" name="id" class="btn btn-dark">Update</button>
                                     </form>
                                 </td>
                                 <td><%= list.products.totalItems %></td>

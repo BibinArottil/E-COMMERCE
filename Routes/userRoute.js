@@ -31,6 +31,8 @@ user_route.put('/cart-decQty',cart.decQty)
 const wishlist=require('../Controllers/user/wishlist')
 user_route.get('/wishlist',wishlist.loadWishlist)
 user_route.get('/add-towishlist',wishlist.addToWishlist)
+user_route.get('/wish-tocart',wishlist.wishTocart)
+user_route.get('/wish-delete',wishlist.deleteWish)
 
 const product=require('../Controllers/user/productDetails')
 user_route.get('/view-product',product.viewProduct)
@@ -46,9 +48,5 @@ user_route.get('/paypalsuccess',checkout.paypalSuccess)
 
 const order=require('../Controllers/user/order')
 user_route.get('/order',order.loadOrder)
-
-const paypal=require('../Controllers/user/paypal')
-user_route.post('/pay',paypal.paypalgate)
-
 
 module.exports = user_route;

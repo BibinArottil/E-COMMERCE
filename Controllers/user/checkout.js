@@ -3,12 +3,14 @@ const { name } = require('ejs')
 const { default: mongoose } = require('mongoose')
 const User=require('../../Model/user/userModel')
 const Order=require('../../Model/user/orderModel')
+const Wishlist=require("../../Model/user/wishlistModel")
 
 const loadCheckout=async(req,res)=>{
     try {
         existUser=req.session.user
         const userId=req.session.user
         const userData=await User.findById(userId)
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
         const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
         const items=await User.updateOne({_id:userId},{$set:{"cart.totalItems":cartLenght.length}})
         const address=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},
@@ -29,7 +31,7 @@ const loadCheckout=async(req,res)=>{
         const cart=await User.findOne({_id:userId}).populate("cart.items.productId")
         const totalPrice=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.itmes",totalPrice:{$sum:"$cart.items.price"}}}])
         cartData=cart.cart.items
-        res.render('../Views/user/checkout.ejs',{existUser,cartData,price,userData,address,totalPrice,cartLenght})
+        res.render('../Views/user/checkout.ejs',{existUser,cartData,price,userData,address,totalPrice,cartLenght,wishLenght})
     } catch (error) {
         console.log(error);
     }
@@ -82,7 +84,7 @@ const paymentSuccess=async(req,res)=>{
         if(req.body.type=="COD"){
             const userId=req.session.user
             const user=await User.findById(userId).populate("cart.items")
-            orderObj={
+            orderCod={
                 user: userId,
                 products: user.cart,
                 address:{
@@ -98,7 +100,7 @@ const paymentSuccess=async(req,res)=>{
                 date:Date.now(),
                 order:req.body.type
             }
-            const order=new Order(orderObj)
+            const order=new Order(orderCod)
             await order.save()
             await User.updateOne({_id:userId},{$set:{"cart":{}}})
             res.render('../Views/user/paymentsuccess.ejs',{order})
@@ -144,7 +146,7 @@ const paymentSuccess=async(req,res)=>{
         }
         const userId=req.session.user
         const user=await User.findById(userId).populate("cart.items")
-        orderObj={
+        orderPaypal={
             user: userId,
             products: user.cart,
             address:{
@@ -168,7 +170,7 @@ const paymentSuccess=async(req,res)=>{
 const paypalSuccess=async(req,res)=>{
        try {
         const userId=req.session.user
-        const order=new Order(orderObj)
+        const order=new Order(orderPaypal)
         await order.save()
         await User.updateOne({_id:userId},{$set:{"cart":{}}})
         console.log("paypal successs");

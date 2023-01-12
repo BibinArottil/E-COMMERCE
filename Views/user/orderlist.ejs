@@ -212,7 +212,7 @@
         <div class="col-lg-10 col-xl-8">
           <div class="card" style="border-radius: 10px;">
             <div class="card-header px-2 py-3">
-             <h5 class="text-muted mb-0">Thanks for your Order <span class="text-uppercase" style="color: #4e6193;">bibn</span></h5>
+             <h5 class="text-muted mb-0">Thanks for your Order <span class="text-uppercase" style="color: #4e6193;"><%= userData.name %> </span></h5>
             </div>
             <div class="card-body p-4">
               <div class="d-flex justify-content-between align-items-center mb-4">
@@ -264,7 +264,7 @@
               </div>
               <% }) %> 
                <!-- <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;"> -->
-                  <div class="row d-flex align-items-center">
+                  <!-- <div class="row d-flex align-items-center">
                     <div class="col-md-2">
                       <h1 class="text-muted mb-0 small">Track Order</h1>
                     </div>
@@ -280,13 +280,12 @@
                         <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
   
               <div class="d-flex justify-content-between pt-2">
                 <h5 class="fw-bold mb-0">Delivery address</h5>
                 <h5 class="text-muted mb-0"><span class="fw-bold me-4">Total</span>₹  <%= orderData[0].total %> </h5>
               </div>
-  
               <!-- <div class="d-flex justify-content-between pt-2">
                 <p class="text-muted mb-0">Invoice Number : 788152</p>
                 <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>

@@ -2,6 +2,7 @@ const User=require('../../Model/user/userModel')
 const Product=require('../../Model/admin/productModel')
 const { product } = require('../admin/adminController')
 const { default: mongoose } = require('mongoose')
+const Wishlist=require("../../Model/user/wishlistModel")
 
 const addTOCart=async(req,res)=>{
     try {
@@ -31,13 +32,14 @@ const viewCart=async(req,res)=>{
         const userId=req.session.user
         const userData=await User.findById(userId)
     const cart= await User.findOne({_id:userId}).populate("cart.items.productId")
+    const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
     const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
     const price= await User.findOne({_id:userId}).populate("cart.items.price")
     const total= await User.findOne({_id:userId}).populate("cart.totalPrice")
     // const price=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.itmes",totalPrice:{$sum:"$cart.items.price"}}}])
     // console.log(price[0].totalPrice,'&&&&&&&&');
     const cartData=cart.cart.items
-    res.render('../Views/user/cart.ejs',{cartData,price,existUser,cartLenght,userData,total})
+    res.render('../Views/user/cart.ejs',{cartData,price,existUser,cartLenght,wishLenght,userData,total})
     } catch (error) {
         console.log(error);
     }
@@ -103,7 +105,7 @@ const deleteCart=async(req,res)=>{
         const product=await Product.findById(id)
         const cart=await User.updateOne({_id:userId},{$pull:{"cart.items":{_id:id}}})
         const price=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.itmes",totalPrice:{$sum:"$cart.items.price"}}}])
-        console.log(price[0].totalPrice,'&&&&&&&&');
+        // console.log(price[0].totalPrice,'&&&&&&&&');
         await User.updateOne({_id:userId},{$set:{"cart.totalPrice":price[0].totalPrice}})
         // if()
     // await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":-1,"cart.items.$.price":-product.price,"cart.totalPrice":-product.price}})
