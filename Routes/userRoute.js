@@ -39,6 +39,8 @@ user_route.get('/view-product',product.viewProduct)
 
 const shop=require('../Controllers/user/shop')
 user_route.get('/shop',shop.loadShop)
+user_route.get('/search',shop.searchProduct)
+user_route.get('/search-category',shop.searchCategory)
 
 const checkout=require('../Controllers/user/checkout')
 user_route.post('/checkout',checkout.loadCheckout)
@@ -48,5 +50,10 @@ user_route.get('/paypalsuccess',checkout.paypalSuccess)
 
 const order=require('../Controllers/user/order')
 user_route.get('/order',order.loadOrder)
+user_route.get('/order-view',order.orderView)
+user_route.get('/order-cancel',order.orderCancel)
+
+const coupon=require('../Controllers/user/coupon')
+user_route.post('/coupon-check',coupon.couponCheck)
 
 module.exports = user_route;

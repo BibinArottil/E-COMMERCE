@@ -15,33 +15,12 @@
         </div>
     </div>
     <!-- Page Header End --> 
-    <!-- <div class="container-fluid">
-        <div class="row px-xl-5">
-            <div class="col-lg-8 form-group">
-                <h5 class="font-weight-semi-bold">Choose Address</h5>
-                <select onchange="chooseaddress(this.value)" class="custom-select" >
-                    <option selected>choose</option>
-                    <% address.forEach(function(address) {%> 
-                    <option value="<%= address.id %>">
-                        <%= address.addresstype %>,
-                        <%= address.name %>,
-                        <%= address.address %>,
-                        <%= address.district %>,
-                        <%= address.state %>,
-                        <%= address.country %>
-                        <%= address.pin %>,
-                        <%= address.mobile %>
-                     </option>
-                        <% }) %> 
-                </select>
-            </div>
-        </div>
-    </div> -->
+
     <!-- Checkout Start -->
     <form action="/payment" method="post">
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
-            <div class="col-lg-8 pb-5 form-group">
+            <!-- <div class="col-lg-8 pb-5 form-group">
                 <h5 class="font-weight-semi-bold">Choose Address</h5>
                 <select onchange="chooseaddress(this.value)" class="custom-select" >
                     <option selected>choose</option>
@@ -58,8 +37,26 @@
                      </option>
                         <% }) %> 
                 </select>
-            </div>
+            </div> -->
             <div class="col-lg-8">
+                <div class="pb-5 form-group">
+                    <h5 class="font-weight-semi-bold">Choose Address</h5>
+                    <select onchange="chooseaddress(this.value)" class="custom-select" >
+                        <option selected>choose</option>
+                        <% address.forEach(function(address) {%> 
+                        <option value="<%= address.id %>">
+                            <%= address.addresstype %>,
+                            <%= address.name %>,
+                            <%= address.address %>,
+                            <%= address.district %>,
+                            <%= address.state %>,
+                            <%= address.country %>
+                            <%= address.pin %>,
+                            <%= address.mobile %>
+                         </option>
+                            <% }) %> 
+                    </select>
+                </div>
                 <div class="mb-4">
                     <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
                     <div class="row">
@@ -97,23 +94,23 @@
                             <input id="mobile" name="mobile" class="form-control" type="text">
                         </div>
                         <script>
-                            function chooseaddress(address){
-                                $.ajax({
-                                    url:'/checkout',
-                                    method:'put',
-                                    data:{id:address},
-                                    success: (res)=>{
-                                        $("#type").val(res.data[0].address.addresstype)
-                                        $("#name").val(res.data[0].address.name)
-                                        $("#address").val(res.data[0].address.address)
-                                        $("#district").val(res.data[0].address.district)
-                                        $("#state").val(res.data[0].address.state)
-                                        $("#country").val(res.data[0].address.country)
-                                        $("#pin").val(res.data[0].address.pin)
-                                        $("#mobile").val(res.data[0].address.mobile)
-                                    }
-                                })
-                            }
+                            // function chooseaddress(address){
+                            //     $.ajax({
+                            //         url:'/checkout',
+                            //         method:'put',
+                            //         data:{id:address},
+                            //         success: (res)=>{
+                            //             $("#type").val(res.data[0].address.addresstype)
+                            //             $("#name").val(res.data[0].address.name)
+                            //             $("#address").val(res.data[0].address.address)
+                            //             $("#district").val(res.data[0].address.district)
+                            //             $("#state").val(res.data[0].address.state)
+                            //             $("#country").val(res.data[0].address.country)
+                            //             $("#pin").val(res.data[0].address.pin)
+                            //             $("#mobile").val(res.data[0].address.mobile)
+                            //         }
+                            //     })
+                            // }
                         </script>
                         <!-- <div class="col-md-12 form-group">
                             <div class="custom-control custom-checkbox">
@@ -121,12 +118,12 @@
                                 <label class="custom-control-label" for="newaccount">Create an account</label>
                             </div>
                         </div> -->
-                        <div class="col-md-12 form-group">
+                        <!-- <div class="col-md-12 form-group">
                             <div class="custom-control custom-checkbox">
                                 <input type="checkbox" class="custom-control-input" id="shipto">
                                 <label class="custom-control-label" for="shipto"  data-toggle="collapse" data-target="#shipping-address">Ship to different address</label>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <!-- <div class="collapse mb-4" id="shipping-address">
@@ -181,11 +178,13 @@
                 </div> -->
             </div>
             <div class="col-lg-4">
+                <span id="message" style="margin-left: 100px; font-weight: bold;"></span>
                 <!-- <form class="mb-5" action=""> -->
-                    <div class="input-group">
-                        <input type="text" class="form-control p-4" placeholder="Coupon Code">
+                    <div class="input-group mb-5">
+                        <input type="text" name="couponcode" id="couponCode" class="form-control p-4" placeholder="Coupon Code">
+                        <input type="hidden" id="couponId" name="couponid" value=""> 
                         <div class="input-group-append">
-                            <button class="btn btn-primary">Apply Coupon</button>
+                            <button class="btn btn-primary" id="coupon_button" onclick="couponCheck()">Apply Coupon</button>
                         </div>
                     </div>
                 <!-- </form> -->
@@ -203,7 +202,7 @@
                                 <p><%= cart.productId.name %> </p>
                             </div>
                             <div class="d-flex" style="width: 100px;">
-                                <p> <span class="font-weight-semi-bold">X</span>   <%= cart.qty %> </p>
+                                <p> <span class="font-weight-semi-bold">X</span> <%= cart.qty %> </p>
                             </div>
                             <div class="d-flex" style="width: 100px;">
                                 <p><%= cart.price %> </p>
@@ -211,7 +210,7 @@
                             </div>
                         </div>
                         <% }) %> 
-                        <% console.log(totalPrice[0].totalPrice); %> 
+                        
                         <!-- <div class="d-flex justify-content-between">
                             <p>Colorful Stylish Shirt 2</p>
                             <p>$150</p>
@@ -224,24 +223,30 @@
                         <% if(price!=null) {%> 
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">₹<%= subtotal %> </h6>
+                            <h6 class="font-weight-medium">₹ <span id="subtotal"><%= totalPrice[0].totalPrice %></span></h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
                             <h6 class="font-weight-medium">Free</h6>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Coupon Applied :</h6>
+                            <h6 class="font-weight-medium"><span id="coupon_code"></span></h6>
                         </div>
                         <input type="hidden" name="item" value="<%= cartLenght.lenght %> ">
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">₹<%= totalPrice[0].totalPrice %> </h5>
-                        <input type="hidden" name="totalPrice" value="<%= totalPrice[0].totalPrice %> ">
+                            <h5 class="font-weight-bold">₹<span id="total"><%= totalPrice[0].totalPrice %></span> </h5>
+                        <input type="hidden" name="totalPrice" value="<%= totalPrice[0].totalPrice %>">
                         </div>
                     </div>
                     <% } %> 
                     <% } %> 
                 </div>
+                <input type="hidden" name="subtotal" id="subtotal_amount">
+                <input type="hidden" name="totalpay" id="total_amount" value="">
                 <div class="card border-secondary mb-5">
                   
                     <div class="card-header bg-secondary border-0">

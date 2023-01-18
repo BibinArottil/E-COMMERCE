@@ -20,7 +20,11 @@
     <!-- Cart Start -->
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
+            
+            <% if(cartData.length>0) {%> 
+
             <div class="col-lg-8 table-responsive mb-5">
+
                 <table class="table table-bordered text-center mb-0">
                     <thead class="bg-secondary text-dark">
                         <tr>
@@ -48,18 +52,18 @@
                                         <i class="fa fa-minus"></i>
                                         </button> -->
                                         <script>
-                                            function decqty(productId,i){
-                                                $.ajax({
-                                                    url:'/cart-decQty',
-                                                    method:'put',
-                                                    data:{id:productId},
-                                                    success: (res) =>{
-                                                        // $(`#cartQty${i}`).html(res.data.existProduct.qty)
-                                                        // $(`#cartPrice${i}`).html(res.data.existProduct.price)
-                                                        location.reload()
-                                                    }
-                                                })
-                                            }
+                                            // function decqty(productId,i){
+                                            //     $.ajax({
+                                            //         url:'/cart-decQty',
+                                            //         method:'put',
+                                            //         data:{id:productId},
+                                            //         success: (res) =>{
+                                            //             // $(`#cartQty${i}`).html(res.data.existProduct.qty)
+                                            //             // $(`#cartPrice${i}`).html(res.data.existProduct.price)
+                                            //             location.reload()
+                                            //         }
+                                            //     })
+                                            // }
                                         </script>
                                     </div>
                                 
@@ -68,18 +72,18 @@
                                     <div class="input-group-btn">
                                      <button class="btn btn-sm btn-primary" onclick="incqty('<%= cart.productId._id %>','<%= i %>')" role="button"><i class="fa fa-plus"></i></button>
                                         <script>
-                                            function incqty(productId,i){
-                                                $.ajax({
-                                                    url:'/cart-incQty',
-                                                    method:'put',
-                                                    data:{id:productId},
-                                                    success: (res) =>{
-                                                        // $(`#cartQty${i}`).html(res.data.existProduct.qty)
-                                                        // $(`#cartPrice${i}`).html(res.data.existProduct.price)
-                                                        location.reload()
-                                                    }
-                                                })
-                                            }
+                                            // function incqty(productId,i){
+                                            //     $.ajax({
+                                            //         url:'/cart-incQty',
+                                            //         method:'put',
+                                            //         data:{id:productId},
+                                            //         success: (res) =>{
+                                            //             // $(`#cartQty${i}`).html(res.data.existProduct.qty)
+                                            //             // $(`#cartPrice${i}`).html(res.data.existProduct.price)
+                                            //             location.reload()
+                                            //         }
+                                            //     })
+                                            // }
                                         </script>
                                     </div>
                                 </div>
@@ -106,11 +110,11 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Items</h6>
-                            <h6 class="font-weight-medium"><%= cartLenght.length %> </h6>
+                            <h6 class="font-weight-medium"><%= items.cart.totalItems %> </h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">₹<%= subtotal %></h6>
+                            <h6 class="font-weight-medium">₹<%= total.cart.totalPrice %></h6>
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
@@ -124,8 +128,18 @@
                 </form>
                 </div>
                 <% } %> 
+             
             </div>
+            <% }else{ %> 
+                <div class="col-lg-12 table-responsive mb-5">
+                <div class="d-flex justify-content-center mb-4">
+                    <img class="img-fluid" style="width: 500px;" src="/Public/user/images/user-empty-cart.png" alt="">
+                  </div>
+                  </div>
+                <% } %> 
+            
         </div>
+        
     </div>
     <!-- Cart End -->
 

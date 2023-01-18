@@ -2,6 +2,7 @@ const User=require('../../Model/user/userModel')
 const Wishlist=require("../../Model/user/wishlistModel")
 const { default: mongoose } = require('mongoose')
 const bcrypt=require('bcrypt')
+const { findOne } = require('../../Model/admin/bannerModel')
 
 const loadProfile=async(req,res)=>{
     try {
@@ -67,8 +68,15 @@ const editProfile=async(req,res)=>{
 
 const updateProfile=async(req,res)=>{
     try {
-        await User.findByIdAndUpdate(req.session.user,{$set:{name:req.body.name,email:req.body.email,phone_no:req.body.phone}})
-        res.redirect('/profile')
+        const userData=await User.findById(req.session.user)
+        const email=req.body.email
+        const user=await User.findOne({email})
+        if(user){
+            res.render('../Views/user/edit-profile.ejs',{userData,wrong:"This email already exist"})
+        }else{
+            await User.findByIdAndUpdate(req.session.user,{$set:{name:req.body.name,email:req.body.email,phone_no:req.body.phone}})
+            res.redirect('/profile')
+        }
     } catch (error) {
         console.log(error);
     }
@@ -80,12 +88,16 @@ const changePassword=async(req,res)=>{
 
 const updatePassword=async(req,res)=>{
     try {
-        const passwordHash=await bcrypt.hash(req.body.newpassword,10)
+        const user=await User.findById(req.session.user)
+        console.log(user);
+        const passwordMatch=await bcrypt.compare(req.body.currentpassword,user.password)
+        if (passwordMatch==true) {
+            const passwordHash=await bcrypt.hash(req.body.newpassword,10)
         await User.updateOne({_id:req.session.user},{$set:{password:passwordHash}})
         res.render('../Views/user/changepassword.ejs',{message:"New password updated"})
-        // setTimeout(() => {
-        //     console.log('Hello World!');
-        //   }, 2000);
+        }else{
+            res.render('../Views/user/changepassword.ejs',{wrong:"Current password not match"})
+        }
     } catch (error) {
         console.log(error);
     }

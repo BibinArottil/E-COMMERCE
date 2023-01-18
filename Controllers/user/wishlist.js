@@ -16,15 +16,12 @@ const loadWishlist = async (req, res) => {
       { $unwind: "$products" },
       { $group: { _id: "$products" } },
     ]);
-    // console.log(wishLenght.length,'######');
     const cartLenght = await User.aggregate([
       { $match: { _id: mongoose.Types.ObjectId(userId) } },
       { $unwind: "$cart.items" },
       { $group: { _id: "$cart.items" } },
     ]);
-    const wishData = await Wishlist.findOne({ userId: userId }).populate(
-      "products.productId"
-    );
+    const wishData = await Wishlist.findOne({ userId: userId }).populate("products.productId");
     res.render("../Views/user/wishlist.ejs", {
       wishDetails: wishData.products,
       existUser,
@@ -58,10 +55,10 @@ const wishTocart = async (req, res) => {
           },
         }
       ); //true
-      await Wishlist.updateOne(
-        { userId: userId, products: { $elemMatch: { productId: id } } },
-        { $pull: { products: { productId: id } } }
-      ); //true
+      // await Wishlist.updateOne(
+      //   { userId: userId, products: { $elemMatch: { productId: id } } },
+      //   { $pull: { products: { productId: id } } }
+      // ); //true
       res.redirect("/wishlist");
     } else {
       await User.updateOne(
@@ -73,10 +70,10 @@ const wishTocart = async (req, res) => {
         { $inc: { "cart.totalPrice": product.price } },
         { $set: { "cart.totalPrice": product.price } }
       ); //true
-      await Wishlist.updateOne(
-        { userId: userId, products: { $elemMatch: { productId: id } } },
-        { $pull: { products: { productId: id } } }
-      ); //true
+      // await Wishlist.updateOne(
+      //   { userId: userId, products: { $elemMatch: { productId: id } } },
+      //   { $pull: { products: { productId: id } } }
+      // ); //true
       res.redirect("/wishlist");
     }
     // await User.updateOne({_id:userId},{$push:{"cart.items":{productId:id, price: product.price }}})

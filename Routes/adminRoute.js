@@ -25,7 +25,22 @@ admin_router.post('/edit-product',upload.single('image'),adminRouter.updateProdu
 
 const order=require('../Controllers/admin/orderManagement')
 admin_router.get('/order-manage',order.loadOrder)
-admin_router.post('/status',order.statusUpdate)               
+admin_router.post('/status',order.statusUpdate)
+admin_router.get('/view',order.orederView)
+
+const banner=require('../Controllers/admin/banner')
+admin_router.get('/banner',banner.bannerView)
+admin_router.post('/insert-banner',upload.single('image'),banner.insertBanner)
+admin_router.get('/action-banner',banner.bannerAction)
+admin_router.get('/edit-banner',banner.editBanner)
+admin_router.post('/update-banner',upload.single('image'),banner.updateBanner)
+
+const coupen=require('../Controllers/admin/coupen')
+admin_router.get('/coupen',coupen.viewCoupen)
+admin_router.post('/add-coupen',coupen.addCoupen)
+admin_router.get('/action-coupen',coupen.blockUnblock)
+admin_router.get('/edit-coupen',coupen.editCoupen)
+admin_router.post('/update-coupen',coupen.updateCoupen)
 
 admin_router.get('/admin-logout',adminRouter.adminLogout)
 

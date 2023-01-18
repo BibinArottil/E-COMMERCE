@@ -5,6 +5,7 @@ const Wishlist=require("../../Model/user/wishlistModel")
 const mailer=require('../../Utils/otp')
 const bcrypt=require('bcrypt')
 const { default: mongoose } = require("mongoose")
+const Banner = require("../../Model/admin/bannerModel")
 
 const userLogin=(req,res)=>{
     res.render('../Views/user/userLogin.ejs')
@@ -69,7 +70,6 @@ const otpVerfication=async(req,res)=>{
 
 const userVerification=async(req,res)=>{
   try {
-    // const id=req.body.id
     let email=req.body.email
     let password=req.body.password
 
@@ -100,17 +100,11 @@ const loadHome=async(req,res)=>{
             // const cartData=cart.cart.items
             const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
             const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
-            // console.log(cart.length,'********');
-            // Product.find({},(err,productDetails)=>{
-            //     if(err){
-            //         console.log(err);
-            //     }else{
-            //         res.render('../Views/user/home.ejs',{details:productDetails,existUser,cartLenght,userData})
-            //     }
-            // })
-            Product.find().sort({_id:-1}).then((result)=>{
-                res.render('../Views/user/home.ejs',{details:result,existUser,cartLenght,wishLenght,userData})
-
+            const banner=await Banner.find({status:true})
+            await Product.find({status:true}).sort({_id:-1}).then((result)=>{
+                res.render('../Views/user/home.ejs',{details:result,existUser,cartLenght,wishLenght,userData,banner})
+            }).catch((error)=>{
+                console.log(error);
             })
         } catch (error) {
             console.log(error);

@@ -1,7 +1,7 @@
 const User=require('../../Model/user/userModel')
 const Product=require('../../Model/admin/productModel')
 const { product } = require('../admin/adminController')
-const { default: mongoose } = require('mongoose')
+const mongoose = require('mongoose')
 const Wishlist=require("../../Model/user/wishlistModel")
 
 const addTOCart=async(req,res)=>{
@@ -9,6 +9,7 @@ const addTOCart=async(req,res)=>{
         const userId=req.session.user
         const id=req.query.id
         const productExist = await User.findOne({_id:userId,"cart.items":{$elemMatch:{productId:id}}})
+       
         const product= await Product.findById(id)
         if(productExist){
             // await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":1, "cart.items.$.price": product.price }})
@@ -21,6 +22,8 @@ const addTOCart=async(req,res)=>{
             await User.updateOne({_id:userId},{$inc:{"cart.totalPrice":product.price}},{$set:{"cart.totalPrice":product.price }}) //true
             res.redirect('/cart')
         }
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$set:{"cart.totalItems": cartLenght.length }})   //true
     } catch (error) {
         console.log(error);
     }
@@ -35,11 +38,10 @@ const viewCart=async(req,res)=>{
     const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
     const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
     const price= await User.findOne({_id:userId}).populate("cart.items.price")
+    const items= await User.findOne({_id:userId}).populate("cart.totalItems")
     const total= await User.findOne({_id:userId}).populate("cart.totalPrice")
-    // const price=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.itmes",totalPrice:{$sum:"$cart.items.price"}}}])
-    // console.log(price[0].totalPrice,'&&&&&&&&');
     const cartData=cart.cart.items
-    res.render('../Views/user/cart.ejs',{cartData,price,existUser,cartLenght,wishLenght,userData,total})
+    res.render('../Views/user/cart.ejs',{cartData,price,existUser,cartLenght,wishLenght,userData,total,items})
     } catch (error) {
         console.log(error);
     }
@@ -85,14 +87,7 @@ const decQty=async(req,res)=>{
             data:{existProduct:existProduct}
         })
         console.log(existProduct.qty);
-        // if(existProduct.qty>=2){
-        //     await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":-1,"cart.items.$.price":-product.price,"cart.totalPrice":-product.price}})
-        //     console.log("^^^^^^^^^^^^^^^");
-        // // }else{
-        //     await User.updateOne({_id:userId},{$pull:{"cart.items":{productId:id}}})
-        //     console.log('***********');
-        //     res.redirect('/cart')
-        // }
+ 
     } catch (error) {
         console.log(error);
     }
@@ -101,16 +96,15 @@ const decQty=async(req,res)=>{
 const deleteCart=async(req,res)=>{
     try {
         const userId=req.session.user
+        console.log(userId);
         const id =req.query.id
         const product=await Product.findById(id)
         const cart=await User.updateOne({_id:userId},{$pull:{"cart.items":{_id:id}}})
+        const items=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.itmes",totalItems:{$sum:"$cart.items"}}}])
         const price=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.itmes",totalPrice:{$sum:"$cart.items.price"}}}])
-        // console.log(price[0].totalPrice,'&&&&&&&&');
-        await User.updateOne({_id:userId},{$set:{"cart.totalPrice":price[0].totalPrice}})
-        // if()
-    // await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":-1,"cart.items.$.price":-product.price,"cart.totalPrice":-product.price}})
-    // const itemId=req.query.id
-    // await User.updateOne({_id:userId,"cart.items":{$elemMatch:{_id:itemId}}},{$inc:{"cart.totalPrice":-"cart.items.price"}})
+        await User.updateOne({_id:userId},{$set:{"cart.totalPrice":price.totalPrice}})
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        await User.updateOne({_id:userId},{$set:{"cart.totalItems": cartLenght.length }})   //true
     res.redirect('/cart')
     } catch (error) {
         console.log(error);

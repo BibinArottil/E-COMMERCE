@@ -9,29 +9,35 @@
     <meta name="author" content="" />
     <title>Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <link href="/Public/admin//css/style.css" rel="stylesheet" />
+    <link href="/Public/admin/css/style.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css">
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> -->
+
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css"/>
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap5.min.css"/>
+
+   <script src="/Public/admin/assets/demo/datatables-demo.js"></script>
+   <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+   <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+   <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script> -->
+    
 </head>
 
 <body class="sb-nav-fixed">
     <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
         <!-- Navbar Brand-->
-        <a class="navbar-brand ps-3" href="#"><h2> Click-Buy</h2></a>
+        <a class="navbar-brand ps-3" href="index.html">Click-Buy Admin</a>
         <!-- Sidebar Toggle-->
         <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
                 class="fas fa-bars"></i></button>
         <!-- Navbar Search-->
-        <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+        <!-- <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"> -->
             <div class="input-group">
                 <!-- <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
                     aria-describedby="btnNavbarSearch" />
                 <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
                         class="fas fa-search"></i></button> -->
             </div>
-        </form>
+        <!-- </form> -->
         <!-- Navbar-->
         <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
             <li class="nav-item dropdown">
@@ -43,7 +49,7 @@
                     <li>
                         <hr class="dropdown-divider" />
                     </li>
-                    <li><a class="dropdown-item" href="/admin-logout">Logout</a></li>
+                    <li><a class="dropdown-item" href="admin-logout">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -54,7 +60,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="index.html">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
@@ -70,6 +76,7 @@
                             Product
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
+                        
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne"
                             data-bs-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">
@@ -85,6 +92,8 @@
                             <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></div>
                             Banner
                         </a>
+
+
                         <a class="nav-link" href="/coupen">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Coupens
@@ -96,98 +105,102 @@
         </div>
         <div id="layoutSidenav_content">
             <main>
-                
-                    <div class="container-fluid px-4 mt-3">
-                        <h1 class="mb-4">Category Management</h1>
-                        <!-- <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add category</button>
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Add category</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form action="/insert-category" method="post">
-          <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">New category</label>
-            <input type="text" name="category" class="form-control" id="recipient-name" required>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-primary">Add</button>
-          </div>
-        </form>
-      </div>
-      
-    </div>
-  </div>
-</div> -->
-                <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-whatever="@mdo">Add category</button>
+                <!-- content start -->
+                <div class="container-fluid px-4 mt-3">
+                        <h1 class="mb-4">Banner Management</h1>
+
+                        <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-whatever="@mdo">Add coupen</button>
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h1 class="modal-title fs-5" id="staticBackdropLabel">Add category</h1>
+                          <h1 class="modal-title fs-5" id="staticBackdropLabel">New Coupen</h1>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                          <form action="/insert-category" method="post">
-                            <div class="mb-3">
-                              <label for="recipient-name" class="col-form-label">New category</label>
-                              <input type="text" name="category" class="form-control" id="recipient-name" required>
-                            </div>
-                            <div class="modal-footer">
-                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                              <button type="submit" class="btn btn-primary">Add</button>
-                            </div>
-                          </form>
+                            <form action="/add-coupen" method="post">
+                                <div class="mb-3">
+                                  <label for="recipient-name" class="col-form-label">Coupen code</label>
+                                  <input type="text" name="code" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Discount</label>
+                                    <input type="number" name="discount" class="form-control" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Min purchase amount</label>
+                                    <input type="number" name="minamount" class="form-control" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Create date</label>
+                                    <input type="date" name="createdate" class="form-control" required>
+                                  </div>
+                                  <div class="mb-3">
+                                    <label for="recipient-name" class="col-form-label">Min purchase amount</label>
+                                    <input type="date" name="expiredate" class="form-control" required>
+                                  </div>
+                                
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                  <button type="submit" class="btn btn-primary">Add</button>
+                                </div>
+                              </form>
                         </div>
                         
                       </div>
                     </div>
-                  </div>
-
-                        <!-- <a class="btn btn-info mb-3" href="/edit_category" role="button">Add category</a> -->
-                        <p class="text-center" style="color: red;"><b><%= locals.wrong %></b></p>
-                        <% if(details!=null){ %> 
-                        <table id="example" class="table" style="width:100%">
+                </div>
+                        <table id="example" class="table table-striped" style="width:100%">
                             <thead>
                                 <tr>
-                                    <!-- <th>No:</th> -->
-                                    <th>Category Name</th>
+                                    <th>No :</th>
+                                    <th>code</th>
+                                    <th>Discount</th>
+                                    <th>Min Amount</th>
+                                    <th>Create Date</th>
+                                    <th>Expire Date</th>
                                     <th>Status</th>
-                                    <!-- <th>Availability</th> -->
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <% details.forEach(function(category){ %>                                  
                                 <tr>
-                                    <!-- <td></td> -->
-                                    <td><%= category.name %> </td>
+                                    <% coupen.forEach((list,i)=>{ %> 
+                                    <td><%= i+1 %> </td>
+                                    <td><%= list.code %> </td>
+                                    <td><%= list.discount %></td>
+                                    <td><%= list.minpurchaseamount %></td>
+                                    <% let date = list.createdate %>
+                                    <%  const dgfate = new Date(date); %>
+                                   <% const createdate = dgfate.toLocaleDateString(); %> 
+                                    <td><%= createdate %> </td>
+                                    <% let exdate = list.expiredate %>
+                                    <%  const expdate = new Date(exdate); %>
+                                   <% const expiredate = expdate.toLocaleDateString(); %> 
+                                    <td><%= expiredate %> </td>
                                     <td>
-                                        <% if(category.status==true){ %>
+                                        <% if(list.status==true){ %>
                                             <p class="text-success"  style="width: 70px;">Active</p>
                                             <% }else{ %>
                                                 <p class="text-danger"  style="width: 70px;">Blocked</p>
-                                            <% } %>   
+                                            <% } %>
                                     </td>
                                     <td>
-                                        <% if(category.status==true){ %>
-                                                <a class="btn btn-danger" style="width: 70px;" href="/action-category?id=<%= category._id %>" role="button">Unlist</a>
-                                            <% }else{ %>
-                                                <a class="btn btn-success" style="width: 70px;" href="/action-category?id=<%= category._id %>" role="button">List</a>
-                                        <% } %>
-                                        <a class="btn btn-primary" style="width: 70px;" href="/edit-category?id=<%= category._id %>" role="button">Edit</a>
-                                    </td>          
+                                        <% if(list.status==true){ %>
+                                            <a class="btn btn-danger" style="width: 70px;" href="/action-coupen?id=<%= list._id %> " onclick="return confirm('Are you sure block')" role="button">Block</a>
+                                        <% }else{ %>
+                                            <a class="btn btn-success" style="width: 70px;" href="/action-coupen?id=<%= list._id %> " role="button">Active</a>
+                                    <% } %>
+                                    <a class="btn btn-primary" style="width: 70px;" href="/edit-coupen?id=<%= list._id %> " role="button">Edit</a>
+                                    </td>
                                 </tr>
                                 <% }) %> 
-                            </tbody>                   
-                        </table>
-                        <% } %> 
-                     </div>
-    
+                            </tbody>
+                        </table>    
+                </div>
+         <!-- content end-->
+
+         
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">
@@ -209,15 +222,15 @@
     <script src="/Public/admin/assets/demo/chart-area-demo.js"></script>
     <script src="/Public/admin/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="/Public/admin/assets/demo/datatables-demo.js"></script>
     <script src="/Public/admin/js/datatables-sample-demo.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="/Public/admin/assets/demo/datatables-demo.js"></script>
+
     <script>
-        if ( window.history.replaceState ) {
-window.history.replaceState( null, null, window.location.href );
-}
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
   </script>
+
 </body>
+
 </html>

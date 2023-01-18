@@ -26,6 +26,10 @@ const orderSchema=new mongoose.Schema({
     status:{
         type:String,
         default:"Processing"
+    },
+    couponUsed:{
+        type:mongoose.Types.ObjectId,
+        default:null
     }
     
 })

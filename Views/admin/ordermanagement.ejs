@@ -77,15 +77,19 @@
                             </nav>
                         </div>
                         <a class="nav-link" href="/order-manage">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></div>
                             Orders
+                        </a>
+                        <a class="nav-link" href="/banner">
+                            <div class="sb-nav-link-icon"><i class="fa-solid fa-shop"></i></div>
+                            Banner
                         </a>
 
 
-                        <!-- <a class="nav-link" href="tables.html">
+                        <a class="nav-link" href="/coupen">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Coupens
-                        </a> -->
+                        </a>
                     </div>
                 </div>
 
@@ -100,6 +104,7 @@
                             <tr>
                                 <th>Data</th>
                                 <th>Order ID</th>
+                                <th></th>
                                 <th>Payment Type</th>
                                 <th>Status</th>
                                 <th>Items</th>
@@ -113,15 +118,21 @@
                                 <%  const dgfate = new Date(date); %>
                                <% const todate = dgfate.toLocaleDateString(); %> 
                                 <td><%= todate %> </td>
-                                <td style="width: 50px;"><%= list._id %> </td>
+                                <td style="width: 50px;"><%= list._id %> 
+                                </td>
+                                <td>
+                                    <a style="color: black;" href="/view?id=<%= list._id %> "><i class="fa-solid fa-eye"></i></a>
+                                </td>
                                 <td><%= list.order %></td>
                                 <td style="width: 100px;">
                                     <form action="/status" method="post" class="d-flex">
                                         <select id="new" class="form-select me-3" name="value" aria-label="Default select example" style="width: 150px;">
+                                                    <option selected><%= list.status %> </option>
                                                     <option value="Processing">Processing</option>
                                                     <option value="Packed">Packed</option>
-                                                    <option value="Shipping">Shipping</option>
+                                                    <option value="Shipped">Shipped</option>
                                                     <option value="Delivered">Delivered</option>
+                                                    <option value="Cancel">Cancel</option>
                                         </select>
                                         <!-- <input type="hidden" name="orderId" value="<%= list._id %>"> -->
                                         <button type="submit" value="<%= list._id %>" name="id" class="btn btn-dark">Update</button>
@@ -167,6 +178,8 @@
     <script src="/Public/admin/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="/Public/admin/js/datatables-sample-demo.js"></script>
+    <script src="/Public/admin/assets/demo/datatables-demo.js"></script>
+
     <script>
     if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );

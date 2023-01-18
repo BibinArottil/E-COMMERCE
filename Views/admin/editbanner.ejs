@@ -15,45 +15,20 @@
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-              <h2 class="text-uppercase text-center mb-2">Edit product</h2>
+              <h2 class="text-uppercase text-center mb-3">Edit banner</h2>
               
-              <form method="post" action="/edit-product?id=<%= product._id %>" enctype="multipart/form-data">
+              <form method="post" action="/update-banner" enctype="multipart/form-data">
                 <!-- <p class="d-flex justify-content-center mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="/signup"
                     style="color: #393f81;">Sign up</a></p> -->
-                    <div class="form-outline mb-2">
+                    <div class="form-outline mb-4">
                         <label class="form-label" for="form3Example1cg">Image</label>
-                      <input type="file"  name="image" class="form-control form-control-lg" />
+                      <input type="file"  name="image" class="form-control form-control-lg"/>
                     </div>
-                <div class="form-outline mb-2">
-                    <label class="form-label" for="form3Example1cg">Name</label>
-                  <input type="text"  name="name" value="<%= product.name %> " class="form-control form-control-lg" />
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="form3Example1cg">Banner name</label>
+                  <input type="text"  name="name" class="form-control form-control-lg" value="<%= banner.name %> " required/>
                 </div>
-                <div class="mb-3">
-                    <label for="recipient-name" class="col-form-label">Category</label>
-                    <select name="category" id="new" class="form-select" aria-label="Default select example">
-                        <% if(category!=null) {%>
-                            <% category.forEach((category)=>{ %>
-                                <option value="<%= category.name %> "><%= category.name %> </option>
-                            <% }) %>  
-                        <% } %> 
-                    </select>
-                </div>
-                <!-- <div class="form-outline mb-2">
-                    <label class="form-label" for="form3Example1cg">Category</label>
-                  <input type="text"  name="name" value="<%= product.category %> " class="form-control form-control-lg" />
-                </div> -->
-                <div class="form-outline mb-2">
-                    <label class="form-label" for="form3Example1cg">Description</label>
-                  <input type="text"  name="description" value="<%= product.description %> " class="form-control form-control-lg" />
-                </div>
-                <div class="form-outline mb-2">
-                    <label class="form-label" for="form3Example1cg">Price</label>
-                  <input type="text"  name="price" value="<%= product.price %> " class="form-control form-control-lg" />
-                </div>
-                <div class="form-outline mb-2">
-                    <label class="form-label" for="form3Example1cg">stock</label>
-                  <input type="text"  name="stock" value="<%= product.stock %> " class="form-control form-control-lg" />
-                </div>
+                <input type="hidden"  name="id" class="form-control form-control-lg" value="<%= banner._id %>" required/>
 
                 <!-- <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example1cg">Phone No:</label>
@@ -71,9 +46,9 @@
                 </div> -->
                 <div class="d-flex justify-content-center">
                   <button type="submit"
-                    class="btn btn-outline-info btn-block btn-lg gradient-custom-4 text-body" name="id">Update</button>
+                    class="btn btn-outline-info btn-block btn-lg gradient-custom-4 text-body">Update</button>
                 </div>
-                <a href="/product">back</a>
+                <a href="/banner">back</a>
 
                 <!-- <p class="text-center text-muted mt-3 mb-0">Have already an account? <a href="/"
                     class="fw-bold text-body"><u>Sign in here</u></a></p> -->

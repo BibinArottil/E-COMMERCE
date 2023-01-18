@@ -238,16 +238,29 @@ const editProduct=async(req,res)=>{
 const updateProduct=async(req,res)=>{
   try {
     const id=req.query.id
-    await Product.findByIdAndUpdate({_id:id},
-      {$set:{
-        image:req.file.filename,
-        name:req.body.name,
-        category:req.body.category,
-        description:req.body.description,
-        price:req.body.price,
-        stock:req.body.stock
-      }})
-      res.redirect('/product')
+    console.log(id,'*********');
+    if(typeof(req.files==='undefined')){
+      await Product.findByIdAndUpdate({_id:id},
+        {$set:{
+          name:req.body.name,
+          category:req.body.category,
+          description:req.body.description,
+          price:req.body.price,
+          stock:req.body.stock
+        }})
+        res.redirect('/product')
+    }else{
+      await Product.findByIdAndUpdate({_id:id},
+        {$set:{
+          image:req.file.filename,
+          name:req.body.name,
+          category:req.body.category,
+          description:req.body.description,
+          price:req.body.price,
+          stock:req.body.stock
+        }})
+        res.redirect('/product')
+    }
   } catch (error) {
     console.log(error);
   }
