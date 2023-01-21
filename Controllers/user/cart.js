@@ -12,13 +12,10 @@ const addTOCart=async(req,res)=>{
        
         const product= await Product.findById(id)
         if(productExist){
-            // await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":1, "cart.items.$.price": product.price }})
             await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":1,"cart.items.$.price": product.price,"cart.totalPrice": product.price }})   //true
             res.redirect('/cart')
         }else{
-            // await User.updateOne({_id:userId},{$push:{"cart.items":{productId:id, price: product.price }}},{totalPrice:product.price})
             await User.updateOne({_id:userId},{$push:{"cart.items":{productId:id, price: product.price }}})
-            // await User.updateOne({_id:userId},{$set:{"cart.totalPrice":product.price }})
             await User.updateOne({_id:userId},{$inc:{"cart.totalPrice":product.price}},{$set:{"cart.totalPrice":product.price }}) //true
             res.redirect('/cart')
         }
@@ -26,6 +23,7 @@ const addTOCart=async(req,res)=>{
         await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$set:{"cart.totalItems": cartLenght.length }})   //true
     } catch (error) {
         console.log(error);
+        res.redirect('/server-error')
     }
 }
 
@@ -44,6 +42,8 @@ const viewCart=async(req,res)=>{
     res.render('../Views/user/cart.ejs',{cartData,price,existUser,cartLenght,wishLenght,userData,total,items})
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
+
     }
 }
 
@@ -52,7 +52,6 @@ const incQty=async(req,res)=>{
         const userId=req.session.user
         const id=req.body.id
         const product=await Product.findById(id)
-        // const updateCount =await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":1, "cart.items.$.price": product.price }})
         const updateCount =await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":1, "cart.items.$.price": product.price,"cart.totalPrice":product.price }})  //true
         const user=await User.findById(userId)
         const cartArray=user.cart.items
@@ -74,7 +73,6 @@ const decQty=async(req,res)=>{
         const userId=req.session.user
         const id =req.body.id
         const product=await Product.findById(id)
-        // await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":-1,"cart.items.$.price":-product.price}})
         await User.updateOne({_id:userId,"cart.items": {$elemMatch : {productId:id}}},{$inc:{"cart.items.$.qty":-1,"cart.items.$.price":-product.price,"cart.totalPrice":-product.price}})
         const user=await User.findById(userId)
         const cartArray=user.cart.items
@@ -96,7 +94,6 @@ const decQty=async(req,res)=>{
 const deleteCart=async(req,res)=>{
     try {
         const userId=req.session.user
-        console.log(userId);
         const id =req.query.id
         const product=await Product.findById(id)
         const cart=await User.updateOne({_id:userId},{$pull:{"cart.items":{_id:id}}})

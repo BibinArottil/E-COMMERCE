@@ -161,11 +161,7 @@
     <div class="container-fluid bg-secondary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
             <h1 class="font-weight-semi-bold text-uppercase mb-1">Order view</h1>
-            <!-- <div class="d-inline-flex">
-                <p class="m-0"><a href="">Home</a></p>
-                <p class="m-0 px-2">-</p>
-                <p class="m-0">Shopping Cart</p>
-            </div> -->
+        
         </div>
     </div>
     <!-- Page Header End -->
@@ -320,7 +316,7 @@
                         <%= orderData[0].address.mobile %> 
                      </p>
                      <% if(newOrder.status !='Cancel') {%> 
-                        <a style="height: 40px;display: block;" href="/order-cancel?id=<%= newOrder._id %> " class="btn btn-dark mt-4 px-3">Cancel</a>
+                        <a style="height: 40px;display: block;" href="/order-cancel?id=<%= newOrder._id %>" onclick="return confirm('Are you sure')" class="btn btn-dark mt-4 px-3">Cancel</a>
                      <% } %> 
                     <!-- <a style="height: 40px;display: block;" href="/order-cancel?id=<%= newOrder._id %> " onclick="pop()" id="cancel" class="btn btn-dark mt-4 px-3">Cancel</a> -->
 

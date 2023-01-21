@@ -7,7 +7,7 @@ const Category = require('../../Model/admin/categoryModel')
 
 const loadShop=async(req,res)=>{
     try {
-        existUser=req.session.user
+        const existUser=req.session.user
         const userId=req.session.user
         const userData=await User.findById(userId)
       
@@ -18,31 +18,34 @@ const loadShop=async(req,res)=>{
         res.render('../Views/user/shop.ejs',{existUser,product,cartLenght,wishLenght,userData,category})
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
 const searchProduct=async(req,res)=>{
   try {
+    const existUser=req.session.user
     const userId=req.session.user
     const userData=await User.findById(userId)
     const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
     const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
     const category=await Category.find({status:true})
     let search=req.query.search
-    let sea=req.query.id
-    const product=await Product.find({name:{$regex: ".*"+search+"*.",$options:'i'}}).find({category:sea})
+    const product=await Product.find({name:{$regex: ".*"+search+"*.",$options:'i'}})
     if(product.length>0){
       res.render('../Views/user/shop.ejs',{product,wishLenght,cartLenght,userData,category})
     }else{
-      res.render('../Views/user/shop.ejs',{userData,product,wishLenght,cartLenght,category,message:"Product not found!"})
+      res.render('../Views/user/shop.ejs',{userData,existUser,product,wishLenght,cartLenght,category,message:"Product not found!"})
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/error')
   }
 }
 
 const searchCategory=async(req,res)=>{
   try {
+    const existUser=req.session.user
     const userId=req.session.user
     const userData=await User.findById(userId)
     const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
@@ -53,10 +56,11 @@ const searchCategory=async(req,res)=>{
     if(product.length>0){
       res.render('../Views/user/shop.ejs',{product,wishLenght,cartLenght,userData,category})
     }else{
-      res.render('../Views/user/shop.ejs',{userData,product,wishLenght,cartLenght,category,message:"Product not found!"})
+      res.render('../Views/user/shop.ejs',{userData,existUser,product,wishLenght,cartLenght,category,message:"Product not found!"})
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/server-error')
   }
 }
 

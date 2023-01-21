@@ -8,6 +8,12 @@ const orderSchema=new mongoose.Schema({
         required:true
     },
     products:{ },
+    subTotal:{
+        type:Number
+    },
+    totalAmount:{
+        type:Number
+    },
     address:{
         addresstype:String,
         name:String,

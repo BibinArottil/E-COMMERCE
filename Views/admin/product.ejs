@@ -53,7 +53,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/adminhome">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
@@ -88,6 +88,10 @@
                         <a class="nav-link" href="/coupen">
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Coupens
+                        </a>
+                        <a class="nav-link" href="/sales">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Sales Report
                         </a>
                     </div>
                 </div>
@@ -173,9 +177,9 @@
                                     <td><img src="/Public/admin/productimage/<%= product.image %>"  style="width: 100px; height:100px; object-fit:contain;" alt=""> </td>
                                     <td><%= product.name %> </td>
                                     <td><%= product.category %> </td>
-                                    <td style="width: 350px;"><%= product.description %> </td>
-                                    <td><%= product.price %> </td>
-                                    <td><%= product.stock %> </td>
+                                    <td style="width: 300px;"><%= product.description %> </td>
+                                    <td><%= product.price %></td>
+                                    <td><%= product.stock %></td>
                                     <td>
                                         <% if(product.status==true) {%>
                                             <p class="text-success"  style="width: 70px;">Active</p>
@@ -185,12 +189,11 @@
                                     </td>
                                     <td style="width: 200px;">
                                         <% if(product.status==true){ %>
-                                            <a class="btn btn-danger" style="width: 80px;" href="/action-product?id=<%= product._id %>" role="button">Delete</a>
+                                            <a class="btn btn-danger mb-3" style="width: 80px;" href="/action-product?id=<%= product._id %>" role="button">Delete</a>
                                         <% }else{ %>
                                             <a class="btn btn-success" style="width: 80px;" href="/action-product?id=<%= product._id %>" role="button">Restore</a>
                                         <% } %>
                                         <a class="btn btn-primary" style="width: 80px;" href="/edit-product?id=<%= product._id %>" role="button">Edit</a>
-                                        <!-- <a class="btn btn-danger" style="width: 70px;" href="/delete-product?id=<%= product._id %>" role="button">Delete</a> -->
                                     </td>
                                 </tr>
                                <% }) %> 

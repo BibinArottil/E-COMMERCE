@@ -14,10 +14,16 @@ app.use(express.urlencoded({ extended: true }));
 
 app.set("view engine", "ejs");
 
+app.use("/Public", express.static(__dirname + "/Public"));
+
 app.use(userPageRouter);
 app.use(adminPageRouter);
 
-app.use("/Public", express.static(__dirname + "/Public"));
+app.all('*',(req,res)=>{
+    res.redirect('/error')
+})
+
+
 
 const port = process.env.PORT
 app.listen(port, () => console.log(`Server is running at  http://localhost:${port}`))

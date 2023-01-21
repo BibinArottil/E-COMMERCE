@@ -8,7 +8,7 @@ const Coupon=require('../../Model/admin/coupenModel')
 
 const loadCheckout=async(req,res)=>{
     try {
-        existUser=req.session.user
+        const existUser=req.session.user
         const userId=req.session.user
         const userData=await User.findById(userId)
         const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
@@ -35,6 +35,7 @@ const loadCheckout=async(req,res)=>{
         res.render('../Views/user/checkout.ejs',{existUser,cartData,price,userData,address,totalPrice,cartLenght,wishLenght})
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -68,20 +69,41 @@ paypal.configure({
 
 const paymentSuccess=async(req,res)=>{
     try {
-        // let price= parseInt(req.body.totalPrice) 
+        console.log(req.body);
         const userId=req.session.user
         if(req.body.couponid===''){
             console.log('coupon not used');
         }else{
-            await User.updateOne({_id:userId},{$set:{"cart.totalPrice":req.body.total}})
+            await User.updateOne({_id:userId},{$set:{"cart.totalPrice":req.body.totalpay}})
         }
-        // let price= parseInt(req.body.totalpay)
-        const user=await User.findById(userId).populate("cart.items")
+        // const user=await User.findById(userId).populate("cart.items")
+        const user=await User.aggregate([
+            {$match:{_id:mongoose.Types.ObjectId(req.session.user)}},
+            {$unwind:"$cart.items"},
+            {$lookup:
+                {from:"products",
+                localField:"cart.items.productId",
+                foreignField:"_id",
+                as:"order_list"
+                }
+            },
+            {$project:{
+                qty:"$cart.items.qty",
+                price:"$cart.items.price",
+                productname:"$order_list.name",
+                image:"$order_list.image",
+                productprice:"$order_list.price",
+                items:"$cart.totalItems",
+                totalPrice:"$cart.totalPrice"
+            }}
+        ])
         if(req.body.type=="COD"){
             if(req.body.couponid===''){
                 OrderCod={
                     user: userId,
-                    products: user.cart,
+                    products: user,
+                    subTotal:req.body.subTotal,
+                    totalAmount:req.body.totalpay,
                     address:{
                         addresstype:req.body.addtype,
                         name:req.body.name,
@@ -103,7 +125,9 @@ const paymentSuccess=async(req,res)=>{
             await Coupon.updateOne({_id:req.body.couponid},{$push:{users:{userId:userId}}})
             couponUsedOrderCod={
                 user: userId,
-                products: user.cart,
+                products: user,
+                subTotal:req.body.subTotal,
+                totalAmount:req.body.totalpay,
                 address:{
                     addresstype:req.body.addtype,
                     name:req.body.name,
@@ -121,13 +145,12 @@ const paymentSuccess=async(req,res)=>{
             const order=new Order(couponUsedOrderCod)
             await order.save()
             await User.updateOne({_id:userId},{$set:{"cart":{}}})
-            await Coupon.updateOne()
             res.render('../Views/user/paymentsuccess.ejs',{order})
         }
         
         }else{
             if(req.body.couponid===''){
-                let price= parseInt(req.body.totalPrice)
+                let price= parseInt(req.body.subTotal)
                 const create_payment_json = {
                     "intent": "sale",
                     "payer": {
@@ -168,7 +191,9 @@ const paymentSuccess=async(req,res)=>{
                   });
                 orderPaypal={
                     user: userId,
-                    products: user.cart,
+                    products: user,
+                    subTotal:req.body.subTotal,
+                    totalAmount:req.body.totalpay,
                     address:{
                         addresstype:req.body.addtype,
                         name:req.body.name,
@@ -184,7 +209,9 @@ const paymentSuccess=async(req,res)=>{
                 }
                 req.session.order=orderPaypal
             }else{
+                await Coupon.updateOne({_id:req.body.couponid},{$push:{users:{userId:userId}}})
                 let price= parseInt(req.body.totalpay)
+                await User.updateOne({_id:userId},{$set:{"cart.totalPrice":req.body.totalpay}})
                 const create_payment_json = {
                     "intent": "sale",
                     "payer": {
@@ -218,14 +245,15 @@ const paymentSuccess=async(req,res)=>{
                       for (let i = 0; i < payment.links.length; i++) {
                         if (payment.links[i].rel === "approval_url") {
                           res.redirect(payment.links[i].href);
-            
                             }
                       }
                     }
                   });
                   couponPaypal={
                     user: userId,
-                    products: user.cart,
+                    products: user,
+                    subTotal:req.body.subTotal,
+                    totalAmount:req.body.totalpay,
                     address:{
                         addresstype:req.body.addtype,
                         name:req.body.name,
@@ -245,13 +273,15 @@ const paymentSuccess=async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
+
     }
 }
 
 const paypalSuccess=async(req,res)=>{
        try {
         const userId=req.session.user
-        await Coupon.updateOne({_id:req.body.couponid},{$push:{users:{userId:userId}}})
+        // await Coupon.updateOne({_id:req.body.couponid},{$push:{users:{userId:userId}}})
         const paypal=req.session.order
         const order=new Order(paypal)
         await order.save()
@@ -260,6 +290,7 @@ const paypalSuccess=async(req,res)=>{
     res.render('../Views/user/paymentsuccess.ejs',{order})
        } catch (error) {
         console.log(error);
+        res.redirect('/error')
        }
 }
 

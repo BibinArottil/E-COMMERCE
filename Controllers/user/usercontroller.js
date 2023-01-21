@@ -121,6 +121,14 @@ const userLogout=(req,res)=>{
     res.redirect('/')
 }
 
+const error404=(req,res)=>{
+    res.render('../Views/user/404error.ejs')
+}
+
+const error500=(req,res)=>{
+    res.render('../Views/user/500error.ejs')
+}
+
 module.exports={
     userLogin,
     loadSignUp,
@@ -129,5 +137,7 @@ module.exports={
     otpVerfication,
     loadHome,
     userVerification,
-    userLogout
+    userLogout,
+    error404,
+    error500
 }

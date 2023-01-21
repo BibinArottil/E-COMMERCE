@@ -1,7 +1,8 @@
 const Admin = require("../../Model/admin/adminModel");
 const Category = require("../../Model/admin/categoryModel");
 const User = require("../../Model/user/userModel");
-const Product=require("../../Model/admin/productModel")
+const Product=require("../../Model/admin/productModel");
+const Order = require("../../Model/user/orderModel");
 
 const adminLogin = (req, res) => { 
     res.render("../Views/admin/adminLogin.ejs");
@@ -64,8 +65,25 @@ const updateUser = async (req, res) => {
   }
 };
 
-const loadAdminHome = (req, res) => {
-    res.render('../Views/admin/adminhome.ejs')
+const loadAdminHome = async (req, res) => {
+  try {
+      const customers=await User.count()
+      const products=await Product.count()
+      const totalOrder=await Order.count()
+      const total=await Order.find()
+      const totalRevenue=total.reduce((acc,curr)=>{
+        acc=acc+curr.totalAmount
+        return acc
+      },0)
+      const packed=await Order.count({status:"Packed"})
+      const processing=await Order.count({status:"Processing"})
+      const shipped=await Order.count({status:"Shipped"})
+      const delivered=await Order.count({status:"Delivered"})
+      const cancel=await Order.count({status:"Cancel"})
+    res.render('../Views/admin/adminhome.ejs',{customers,products,totalOrder,totalRevenue,packed,processing,shipped,delivered,cancel})
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const category = async (req, res) => {
@@ -143,32 +161,6 @@ const updateCategory = async (req, res) => {
   }
 }
 
-// const updateCategory=async(req,res)=>{
-//   try {
-//     const category=req.body.name
-//     const existCategory=await Category.findOne({category})
-//     const categoryDetails=await Category.find({})
-//     if(existCategory){
-//       res.render('../Views/admin/editcategory.ejs',{category:categoryDetails,wrong:"This category is already exist"})
-//     }else{
-//       const id=req.body.id
-//       await Category.findByIdAndUpdate({_id:id},{$set:{name:req.body.name}})
-//       res.redirect('/category')
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
-// const deleteCategory=async(req,res)=>{
-//     try {
-//         await Category.findByIdAndDelete({_id:req.query.id})
-//         res.redirect('/category')
-//     } catch (error) {
-//         console.log(error);
-//     } 
-// }
-
 const product=(req,res)=>{
     try {
       Product.find({},(err,productDetails)=>{
@@ -238,7 +230,6 @@ const editProduct=async(req,res)=>{
 const updateProduct=async(req,res)=>{
   try {
     const id=req.query.id
-    console.log(id,'*********');
     if(typeof(req.files==='undefined')){
       await Product.findByIdAndUpdate({_id:id},
         {$set:{
@@ -265,14 +256,6 @@ const updateProduct=async(req,res)=>{
     console.log(error);
   }
 }
-
-// const deleteProduct=async(req,res)=>{
-// try {
-//   await Product.findByIdAndDelete({_id:req.query.id})
-//   res.redirect('/product')
-// } catch (error) {
-//   console.log(error);
-// }}
 
 const adminLogout=(req,res)=>{
     req.session.destroy()

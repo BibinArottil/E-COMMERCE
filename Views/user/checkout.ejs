@@ -233,20 +233,24 @@
                             <h6 class="font-weight-medium">Coupon Applied :</h6>
                             <h6 class="font-weight-medium"><span id="coupon_code"></span></h6>
                         </div>
+                        <div class="d-flex justify-content-between">
+                            <h6 class="font-weight-medium">Coupon off amount :</h6>
+                            <h6 class="font-weight-medium"><span id="coupon_discount"></span></h6>
+                        </div>
                         <input type="hidden" name="item" value="<%= cartLenght.lenght %> ">
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
                             <h5 class="font-weight-bold">₹<span id="total"><%= totalPrice[0].totalPrice %></span> </h5>
-                        <input type="hidden" name="totalPrice" value="<%= totalPrice[0].totalPrice %>">
+                        <input type="hidden" name="subTotal" value="<%= totalPrice[0].totalPrice %>">
                         </div>
                     </div>
                     <% } %> 
                     <% } %> 
                 </div>
-                <input type="hidden" name="subtotal" id="subtotal_amount">
-                <input type="hidden" name="totalpay" id="total_amount" value="">
+                <input type="hidden" name="subtotal" id="subtotal_amount" >
+                <input type="hidden" name="totalpay" id="total_amount" value="<%= totalPrice[0].totalPrice %>">
                 <div class="card border-secondary mb-5">
                   
                     <div class="card-header bg-secondary border-0">

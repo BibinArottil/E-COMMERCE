@@ -14,7 +14,6 @@ const addCoupen=async(req,res)=>{
         console.log(req.body);
         const code=req.body.code.toUpperCase()
         const newCoupen=new Coupen({
-            name:req.body.name,
             code:code,
             discount:req.body.discount,
             minpurchaseamount:req.body.minamount,
@@ -55,7 +54,17 @@ const updateCoupen=async(req,res)=>{
     try {
         console.log(req.body);
         console.log(req.body.id);
-        await Coupen.findById()
+        const code=req.body.code.toUpperCase()
+        await Coupen.findByIdAndUpdate(req.body.id,{$set:{
+            code:code,
+            discount:req.body.discount,
+            minpurchaseamount:req.body.minamount,
+            createdate:req.body.createdate,
+            expiredate:req.body.expiredate
+        }
+    })
+       res.redirect('/coupen')
+        
     } catch (error) {
         console.log(error);
     }

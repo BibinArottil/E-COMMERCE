@@ -10,6 +10,8 @@ user_route.get("/signup",auth.userLogout,userRouter.loadSignUp);
 user_route.post("/signup",userRouter.insertUser)
 user_route.post("/otp",userRouter.otpVerfication)
 user_route.get('/user-logout',userRouter.userLogout)
+user_route.get('/error',userRouter.error404)
+user_route.get('/server-error',userRouter.error500)
 
 const profile=require('../Controllers/user/profile')
 user_route.get('/profile',auth.userLogin,profile.loadProfile)

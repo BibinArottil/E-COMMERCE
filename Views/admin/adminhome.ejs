@@ -52,7 +52,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="adminhome">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
@@ -88,6 +88,10 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Coupens
                         </a>
+                        <a class="nav-link" href="/sales">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Sales Report
+                        </a>
                     </div>
                 </div>
             </nav>
@@ -95,71 +99,91 @@
         <div id="layoutSidenav_content">
             <main>
                 <!-- Dashboad content start -->
-                <!-- <div class="container-fluid px-4">
+                <div class="container-fluid px-4">
                     <h1 class="mt-4">Dashboard</h1>
                     <ol class="breadcrumb mb-4">
-                        <li class="breadcrumb-item active">Dashboard</li>
-                    </ol> -->
-                    <!-- <div class="row">
+                        <!-- <li class="breadcrumb-item active">Dashboard</li> -->
+                    </ol>
+                    <div class="row">
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-primary text-white mb-4">
-                                <div class="card-body">Primary Card</div>
+                                <div class="card-body" style="height:100px;"><h3>Products</h3></div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    <h5><%= products %> </h5>
+                                    <div class="small text-white"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-warning text-white mb-4">
-                                <div class="card-body">Warning Card</div>
+                                  <div class="card-body" style="height:100px;"><h3>Revenue</h3></div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    <h5><%= totalRevenue %> </h5>
+                                    <div class="small text-white"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-success text-white mb-4">
-                                <div class="card-body">Success Card</div>
+                                <div class="card-body" style="height:100px;"><h3>Customers</h3></div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    <h5><%= customers %> </h5>
+                                    <div class="small text-white"></div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-xl-3 col-md-6">
                             <div class="card bg-danger text-white mb-4">
-                                <div class="card-body">Danger Card</div>
+                                <div class="card-body" style="height:100px;"><h3>Total Orders</h3></div>
                                 <div class="card-footer d-flex align-items-center justify-content-between">
-                                    <a class="small text-white stretched-link" href="#">View Details</a>
-                                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                                    <h5><%= totalOrder %> </h5>
+                                    <div class="small text-white"></div>
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <!-- <div class="pb-2">
+                        <form action="/admin/sales" class="d-flex justify-content-between" method="post">
+                            <label for="exampleFormControlInput1">Starting Date</label>
+                            <input type="date" class="form-control " style="width: 20%;" id="exampleFormControlInput1" placeholder="Name" name="from">
+                            <label for="exampleFormControlInput1" style="padding-left: 1%;">Ending Date</label>
+                            <input type="date" class="form-control " style="width: 20%; " id="exampleFormControlInput1" placeholder="Name" name="to">
+                            <div style="padding-left: 1%;">
+                        </div>
+                    <button type="submit" class="btn btn-primary" >Submit</button>
+                    </form>
                     </div> -->
-                    <!-- <div class="row">
-                        <div class="col-xl-6">
+                    <div class="row">
+                        <!-- <div class="col-xl-6">
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-area me-1"></i>
                                     Area Chart Example
                                 </div>
-                                <div class="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
+                                <div class="card-body"><canvas id="myAreaChart" width="100%" height="50"></canvas></div>
+                            </div>
+                        </div> -->
+                        <div class="col-xl-6">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <i class="fas fa-chart-bar me-1"></i>
+                                    Bar Chart
+                                </div>
+                                <div class="card-body"><canvas id="myBarChart" width="100%" height="50"></canvas></div>
                             </div>
                         </div>
                         <div class="col-xl-6">
                             <div class="card mb-4">
                                 <div class="card-header">
                                     <i class="fas fa-chart-bar me-1"></i>
-                                    Bar Chart Example
+                                    Pie Chart 
                                 </div>
-                                <div class="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
+                                <div class="card-body"><canvas id="myPieChart" width="100%" height="50"></canvas></div>
                             </div>
                         </div>
-                    </div> -->
+                    </div>
 
-                <!-- </div> -->
+                </div>
          <!-- Dashboad content end-->
 
          
@@ -178,19 +202,37 @@
             </footer>
         </div>
     </div>
+ 
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/Public/admin/js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="/Public/admin/assets/demo/chart-area-demo.js"></script>
+    <!-- <script src="/Public/admin/assets/demo/chart-area-demo.js"></script> -->
     <script src="/Public/admin/assets/demo/chart-bar-demo.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
     <script src="/Public/admin/js/datatables-sample-demo.js"></script>
+    <script>
+        const cty = document.getElementById('myPieChart');
+      
+      new Chart(cty, {
+        type: 'pie',
+        data: {
+          labels: ['Processing','Packed','Shipped', 'Delivered', 'Cancelled'],
+          datasets: [{
+            label: 'Revenue',
+            backgroundColor: ['#007bff', '#E4E40F','#16A9A5' , '#4FFF33' , '#F10707',],
+            data: ['<%=processing%>','<%=packed%>','<%=shipped%>','<%=delivered%>','<%=cancel%>'],
+          //  borderWidth: 1
+          }]
+        }
+      });
+    </script>
     <script>
     if ( window.history.replaceState ) {
         window.history.replaceState( null, null, window.location.href );
     }
   </script>
-
+ 
 </body>
 
 </html>

@@ -168,7 +168,12 @@
         </div>
     </div> -->
     <!-- Page Header End -->
-
+    <div class="container-fluid bg-secondary mb-5">
+      <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
+          <h1 class="font-weight-semi-bold text-uppercase mb-1">Order history</h1>
+      
+      </div>
+  </div>
 
     <!-- Contact Start -->
 
@@ -211,7 +216,7 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-lg-10 col-xl-10">
           <% if(orderTest!=null) {%> 
-          <% order.forEach((order)=> {%> 
+          <% orderData.forEach((order)=> {%> 
           <div class="card mb-5" style="border-radius: 10px;">
         
          
@@ -227,14 +232,15 @@
             
              
               <div class="d-flex justify-content-between pt-2">
-                <p class="fw-bold mb-0">Items - <%= order.products.totalItems %> </p>
-                <h5 class="text-muted mb-0"><span class="fw-bold me-4">Total</span>₹  <%= order.products.totalPrice %> </h5>
+                <p class="fw-bold mb-0">Items - <%= order.items[0] %> </p>
+                <h5 class="text-muted mb-0"><span class="fw-bold me-4">Total</span>₹  <%= order.total[0] %> </h5>
               </div>
               <p class="pt-2">Status - <%= order.status %> </p>
 
               <div class="d-flex justify-content-between pt-2">
                 <div></div>
 
+              
                 <!-- <button type="button" class="btn btn-dark">Return</button> -->
                 <!-- <button type="button" class="btn btn-secondary">View details</button> -->
                 <a href="/order-view?id=<%= order._id %> " class="btn btn-secondary px-2">View details</a>

@@ -21,34 +21,34 @@
                     style="color: #393f81;">Sign up</a></p> -->
                     <div class="form-outline mb-4">
                         <label class="form-label" for="form3Example1cg">Coupon code</label>
-                      <input type="text"  name="code" class="form-control form-control-lg" value="<%= coupen.code %> "/>
+                      <input type="text"  name="code" class="form-control form-control-lg" value=""/>
                     </div>
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example1cg">Discount</label>
-                  <input type="number"  name="discount" class="form-control form-control-lg" value="<%= coupen.discount %>" required/>
+                  <input type="number"  name="discount" class="form-control form-control-lg" value=""/>
                 </div>
 
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example1cg">Min purchase amount</label>
-                    <input type="number"  name="minamount" class="form-control form-control-lg" value="<%= coupen.minpurchaseamount %>" required/>
+                    <input type="number"  name="minamount" class="form-control form-control-lg" value="" />
                   </div>
 
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example3cg">createdate</label>
-                  <input type="text" name="createdate" class="form-control form-control-lg" 
+                  <input type="date" name="createdate" class="form-control form-control-lg" 
                   <% let date = coupen.createdate %>
                   <%  const dgfate = new Date(date); %>
                  <% const createdate = dgfate.toLocaleDateString(); %> 
-                  value="<%= createdate %>" required/>
+                  value="" />
                 </div>
 
                 <div class="form-outline mb-4">
                     <label class="form-label" for="form3Example4cg" >expiredate</label>
-                  <input type="text" name="expiredate" class="form-control form-control-lg" 
+                  <input type="date" name="expiredate" class="form-control form-control-lg" 
                   <% let exdate = coupen.expiredate %>
                   <%  const expdate = new Date(exdate); %>
                  <% const expiredate = expdate.toLocaleDateString(); %> 
-                  value="<%= expiredate %>" required/>
+                  value="" />
                 </div>
                 <div class="d-flex justify-content-center">
                   <button type="submit"

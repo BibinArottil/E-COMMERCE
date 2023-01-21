@@ -64,6 +64,7 @@ var inputValue=$("#couponCode").val()
                 subtotal=subtotal-discount
                 $('#total').html(subtotal)
                 $('#coupon_code').html(code)
+                $('#coupon_discount').html(discount)
                 $('#couponId').val(couponId)
                 $('#total_amount').val(subtotal)
                 }
@@ -84,13 +85,37 @@ var inputValue=$("#couponCode").val()
         })
     }
 
-    // function search(){
-    //     $.ajax({
-    //         type:"get",
-    //         url:"/search",
-    //         data:{search:$('#searchValue').val()},
-    //         success:(res)=>{
-    //             $('#sea').html(res)
-    //         }
-    //     })
-    // }
+    function addToWish(id){
+        $.ajax({
+            url:'/add-towishlist',
+            method:'get',
+            data : {
+                 id
+            },
+           
+            success:(res)=>{
+                if(res.wish){
+                    Swal.fire({
+                        position: 'center',
+                            icon: 'warning',
+                            title: 'Product Already in Wishlist..!',
+                            showConfirmButton: false,
+                            timer: 1500
+                      });             
+                    }
+                    if(res.success){
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'product add successfully',
+                            showConfirmButton: false,
+                            timer: 1500
+                          })
+                          let count=res.count
+                          $("#wish_count").html(count)
+    
+                    }
+            }
+        })
+    }
+

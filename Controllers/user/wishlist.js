@@ -55,10 +55,6 @@ const wishTocart = async (req, res) => {
           },
         }
       ); //true
-      // await Wishlist.updateOne(
-      //   { userId: userId, products: { $elemMatch: { productId: id } } },
-      //   { $pull: { products: { productId: id } } }
-      // ); //true
       res.redirect("/wishlist");
     } else {
       await User.updateOne(
@@ -70,15 +66,8 @@ const wishTocart = async (req, res) => {
         { $inc: { "cart.totalPrice": product.price } },
         { $set: { "cart.totalPrice": product.price } }
       ); //true
-      // await Wishlist.updateOne(
-      //   { userId: userId, products: { $elemMatch: { productId: id } } },
-      //   { $pull: { products: { productId: id } } }
-      // ); //true
       res.redirect("/wishlist");
     }
-    // await User.updateOne({_id:userId},{$push:{"cart.items":{productId:id, price: product.price }}})
-    // await Wishlist.updateOne({userId:userId,products: {$elemMatch : {productId:id}}},{$pull:{products:{productId:id}}})   //true
-    // res.redirect('/wishlist')
   } catch (error) {
     console.log(error);
   }

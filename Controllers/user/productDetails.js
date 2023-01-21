@@ -15,8 +15,8 @@ const viewProduct=async(req,res)=>{
         res.render('../Views/user/productdetails.ejs',{product,existUser,cartLenght,wishLenght,userData})
     } catch (error) {
         console.log(error);
+        res.redirect('/server-error')
     }
-  
 }
 
 module.exports={

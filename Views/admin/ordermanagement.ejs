@@ -52,7 +52,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
 
-                        <a class="nav-link" href="index.html">
+                        <a class="nav-link" href="/adminhome">
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Dashboard
                         </a>
@@ -90,21 +90,38 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Coupens
                         </a>
+                        <a class="nav-link" href="/sales">
+                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                            Sales Report
+                        </a>
                     </div>
                 </div>
 
             </nav>
         </div>
+        
         <div id="layoutSidenav_content">
             <main>
+                   
                 <div class="container-fluid px-4 mt-3">
                     <h1 class="mb-4">Order Management</h1>
+                    <div class="p-3" style="background-color: rgb(120, 167, 186);">
+                        <form action="/sales" class="d-flex justify-content-between input-group-append" method="post">
+                            <label for="exampleFormControlInput1" class="mt-2 fw-bold">Starting Date</label>
+                            <input type="date" class="form-control " style="width: 15%;" id="exampleFormControlInput1" name="from">
+                            <label for="exampleFormControlInput1" class="mt-2 fw-bold" style="padding-left: 1%;">Ending Date</label>
+                            <input type="date" class="form-control " style="width: 15%; " id="exampleFormControlInput1" name="to">
+                            <div style="padding-left: 30%;">
+                        </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                    </div>
                     <table id="example" class="table" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Data</th>
                                 <th>Order ID</th>
-                                <th></th>
+                                <th>View</th>
                                 <th>Payment Type</th>
                                 <th>Status</th>
                                 <th>Items</th>
@@ -118,7 +135,7 @@
                                 <%  const dgfate = new Date(date); %>
                                <% const todate = dgfate.toLocaleDateString(); %> 
                                 <td><%= todate %> </td>
-                                <td style="width: 50px;"><%= list._id %> 
+                                <td style="width: 50px;"><%= list._id %>
                                 </td>
                                 <td>
                                     <a style="color: black;" href="/view?id=<%= list._id %> "><i class="fa-solid fa-eye"></i></a>
@@ -138,8 +155,8 @@
                                         <button type="submit" value="<%= list._id %>" name="id" class="btn btn-dark">Update</button>
                                     </form>
                                 </td>
-                                <td><%= list.products.totalItems %></td>
-                                <td><%= list.products.totalPrice %></td>
+                                <td><%= list.items[0] %></td>
+                                <td><%= list.total[0] %></td>
                             </tr>
                             <% }) %> 
                         </tbody>

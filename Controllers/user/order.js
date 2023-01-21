@@ -16,28 +16,25 @@ const loadOrder=async(req,res)=>{
         const orderList=await Order.aggregate([{$match:{user:userId}}])
         const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
         // console.log(orderList,"@@@@@@@@@");
-        const order=await Order.find({user:userId})
+        // const order=await Order.find({user:userId})
+        // const orderData=await Order.aggregate([{$match:{user:mongoose.Types.ObjectId(userId)}}])
         // console.log(orderTest,'44444444');
         const orderData=await Order.aggregate([
             {$match:{user:mongoose.Types.ObjectId(userId)}},
-            {$unwind:"$products.items"},
-            {$lookup:
-                {from:"products",
-                localField:"products.items.productId",
-                foreignField:"_id",
-                as:"order_data"}},
                 {$project:{
-                    qty:"$products.items.qty",
-                    price:"$products.items.price",
-                    productname:"$order_data.name",
-                    image:"$order_data.image",
-                    productprice:"$order_data.price",
+                    date:"$date",
+                    status:"$status",
+                    qty:"$products.qty",
+                    price:"$products.price",
+                    productname:"$products.productname",
+                    image:"$products.image",
+                    productprice:"$products.productprice",
                     address:"$address",
+                    items:"$products.items",
                     total:"$products.totalPrice"
                 }}
-        ]) 
-        // console.log(orderData,'&&&&&&&')
-        res.render('../Views/user/orderlist.ejs',{orderData,userData,order,newOrder,wishLenght,orderTest})
+        ])
+        res.render('../Views/user/orderlist.ejs',{orderData,userData,newOrder,wishLenght,orderTest})
     } catch (error) {
         console.log(error);
     }
@@ -51,22 +48,22 @@ const orderView=async(req,res)=>{
         const newOrder=await Order.findById(orderId)
         const orderData=await Order.aggregate([
             {$match:{_id:mongoose.Types.ObjectId(orderId)}},
-            {$unwind:"$products.items"},
-            {$lookup:
-                {from:"products",
-                localField:"products.items.productId",
-                foreignField:"_id",
-                as:"order_data"}},
+            {$unwind:"$products"},
+            // {$lookup:
+            //     {from:"products",
+            //     localField:"products.items.productId",
+            //     foreignField:"_id",
+            //     as:"order_data"}},
                 {$project:{
-                    qty:"$products.items.qty",
-                    price:"$products.items.price",
-                    productname:"$order_data.name",
-                    image:"$order_data.image",
-                    productprice:"$order_data.price",
+                    qty:"$products.qty",
+                    price:"$products.price",
+                    productname:"$products.productname",
+                    image:"$products.image",
+                    productprice:"$products.productprice",
                     address:"$address",
                     total:"$products.totalPrice"
                 }}
-        ]) 
+        ])
         // console.log(orderData,'0000000000')
         // console.log(newOrder,'&&&&&&&');
         res.render('../Views/user/orderview.ejs',{orderData,newOrder})

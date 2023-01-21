@@ -27,6 +27,8 @@ const order=require('../Controllers/admin/orderManagement')
 admin_router.get('/order-manage',order.loadOrder)
 admin_router.post('/status',order.statusUpdate)
 admin_router.get('/view',order.orederView)
+admin_router.post('/sales',order.pdfData)
+// admin_router.get('/download',order.exportPdf)
 
 const banner=require('../Controllers/admin/banner')
 admin_router.get('/banner',banner.bannerView)
