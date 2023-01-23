@@ -77,9 +77,13 @@ const userVerification=async(req,res)=>{
     if(user){
         const passwordMatch=await bcrypt.compare(password,user.password)
         if(email==user.email && passwordMatch==true){
-            req.session.user=user._id
-            console.log("user session created");
-            res.redirect('/')
+            if(user.status==true){
+                req.session.user=user._id
+                console.log("user session created");
+                res.redirect('/')
+            }else{
+                res.render('../Views/user/userLogin.ejs',{wrong:"Your account is blocked"})
+            }
         }else{
             res.render('../Views/user/userLogin.ejs',{wrong:"Invalid Email or password"})
         }
@@ -96,8 +100,6 @@ const loadHome=async(req,res)=>{
             existUser=req.session.user
             const userId=req.session.user
             const userData=await User.findById(userId)
-            // const cart= await User.findOne({_id:userId}).populate("cart.items.productId")
-            // const cartData=cart.cart.items
             const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
             const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
             const banner=await Banner.find({status:true})

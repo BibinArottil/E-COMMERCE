@@ -6,11 +6,10 @@ const { findOne } = require('../../Model/admin/bannerModel')
 
 const loadProfile=async(req,res)=>{
     try {
-        existUser=req.session.user
-        const userId=req.session.user
-        const userData=await User.findById(userId)
-        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
-        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        const existUser=req.session.user
+        const userData=await User.findById(existUser)
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
     res.render('../Views/user/profile.ejs',{userData,existUser,cartLenght,wishLenght})
     } catch (error) {
         console.log(error);
@@ -18,7 +17,15 @@ const loadProfile=async(req,res)=>{
 }
 
 const loadAddress=async(req,res)=>{
-    res.render('../Views/user/add-address.ejs')
+    try {
+        const existUser=req.session.user
+        const userData=await User.findById(existUser)
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        res.render('../Views/user/add-address.ejs',{existUser,userData,wishLenght,cartLenght})
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const addAddress=async(req,res)=>{
@@ -44,7 +51,6 @@ const addAddress=async(req,res)=>{
 const deleteAddress=async(req,res)=>{
     try {
         const addId=req.query.id
-        console.log(addId,'===========');
         await User.updateOne({_id:req.session.user},{$pull:{address:{_id:addId}}})
         console.log(addId)
         res.redirect('/profile')
@@ -55,9 +61,12 @@ const deleteAddress=async(req,res)=>{
 
 const editProfile=async(req,res)=>{
     try {
-        const userData=await User.findById(req.session.user)
+        const existUser=req.session.user
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+        const userData=await User.findById(existUser)
         if(userData){
-            res.render('../Views/user/edit-profile.ejs',{userData})
+            res.render('../Views/user/edit-profile.ejs',{userData,cartLenght,wishLenght})
         }else{
             res.redirect('/profile')
         }
@@ -83,7 +92,15 @@ const updateProfile=async(req,res)=>{
 }
 
 const changePassword=async(req,res)=>{
-    res.render('../Views/user/changepassword.ejs')
+    try {
+        const existUser=req.session.user
+        const userData=await User.findById(existUser)
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+        res.render('../Views/user/changepassword.ejs',{userData,existUser,cartLenght,wishLenght})
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const updatePassword=async(req,res)=>{

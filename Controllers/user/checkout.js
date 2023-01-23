@@ -13,7 +13,6 @@ const loadCheckout=async(req,res)=>{
         const userData=await User.findById(userId)
         const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
         const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
-        const items=await User.updateOne({_id:userId},{$set:{"cart.totalItems":cartLenght.length}})
         const address=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},
             {$unwind:"$address"},
             {$project:{
@@ -44,7 +43,6 @@ const addressForm=async(req,res)=>{
         existUser=req.session.user
         const userId=req.session.user
         const addId=req.body.id
-        const userData=await User.findById(userId)
         const address=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},
             {$unwind:"$address"},
             {$match:{"address._id":mongoose.Types.ObjectId(addId)}},
@@ -69,14 +67,12 @@ paypal.configure({
 
 const paymentSuccess=async(req,res)=>{
     try {
-        console.log(req.body);
         const userId=req.session.user
         if(req.body.couponid===''){
             console.log('coupon not used');
         }else{
             await User.updateOne({_id:userId},{$set:{"cart.totalPrice":req.body.totalpay}})
         }
-        // const user=await User.findById(userId).populate("cart.items")
         const user=await User.aggregate([
             {$match:{_id:mongoose.Types.ObjectId(req.session.user)}},
             {$unwind:"$cart.items"},
@@ -120,7 +116,8 @@ const paymentSuccess=async(req,res)=>{
             const order=new Order(OrderCod)
             await order.save()
             await User.updateOne({_id:userId},{$set:{"cart":{}}})
-            res.render('../Views/user/paymentsuccess.ejs',{order})
+            const userData=await User.findById(userId)
+            res.render('../Views/user/paymentsuccess.ejs',{order,userData,userId})
         }else{
             await Coupon.updateOne({_id:req.body.couponid},{$push:{users:{userId:userId}}})
             couponUsedOrderCod={
@@ -145,7 +142,8 @@ const paymentSuccess=async(req,res)=>{
             const order=new Order(couponUsedOrderCod)
             await order.save()
             await User.updateOne({_id:userId},{$set:{"cart":{}}})
-            res.render('../Views/user/paymentsuccess.ejs',{order})
+            const userData=await User.findById(userId)
+            res.render('../Views/user/paymentsuccess.ejs',{order,userId,userData})
         }
         
         }else{
@@ -281,13 +279,13 @@ const paymentSuccess=async(req,res)=>{
 const paypalSuccess=async(req,res)=>{
        try {
         const userId=req.session.user
-        // await Coupon.updateOne({_id:req.body.couponid},{$push:{users:{userId:userId}}})
+        const userData=await User.findById(userId)
         const paypal=req.session.order
         const order=new Order(paypal)
         await order.save()
         req.session.order=false
         await User.updateOne({_id:userId},{$set:{"cart":{}}})
-    res.render('../Views/user/paymentsuccess.ejs',{order})
+    res.render('../Views/user/paymentsuccess.ejs',{order,userId,userData})
        } catch (error) {
         console.log(error);
         res.redirect('/error')

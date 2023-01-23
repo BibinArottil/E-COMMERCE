@@ -90,7 +90,7 @@ var inputValue=$("#couponCode").val()
             url:'/add-towishlist',
             method:'get',
             data : {
-                 id
+                proId:id
             },
            
             success:(res)=>{
@@ -112,8 +112,8 @@ var inputValue=$("#couponCode").val()
                             timer: 1500
                           })
                           let count=res.count
-                          $("#wish_count").html(count)
-    
+                          $("#wishCount").html(count)
+
                     }
             }
         })

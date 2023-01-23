@@ -5,9 +5,9 @@ const User=require("../../Model/user/userModel")
 
 const couponCheck=async(req,res)=>{
     try {
-        console.log("123");
+        console.log("coupon checking");
         const userId=req.session.user
-        const code=req.body.input
+        const code=req.body.input.toUpperCase()
         let total=req.body.total
         total=parseInt(total)
         await Coupon.findOne({code:code}).then((couponExist)=>{

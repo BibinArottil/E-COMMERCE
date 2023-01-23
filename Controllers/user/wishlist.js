@@ -10,7 +10,6 @@ const loadWishlist = async (req, res) => {
     const userData = await User.findById(userId);
     const cart = await User.findOne({ _id: userId }).populate("cart.items");
     const cartData = cart.cart.items;
-    const proId = req.query.id;
     const wishLenght = await Wishlist.aggregate([
       { $match: { userId: mongoose.Types.ObjectId(userId) } },
       { $unwind: "$products" },
@@ -21,7 +20,9 @@ const loadWishlist = async (req, res) => {
       { $unwind: "$cart.items" },
       { $group: { _id: "$cart.items" } },
     ]);
-    const wishData = await Wishlist.findOne({ userId: userId }).populate("products.productId");
+    const wishData = await Wishlist.findOne({ userId: userId }).populate(
+      "products.productId"
+    );
     res.render("../Views/user/wishlist.ejs", {
       wishDetails: wishData.products,
       existUser,
@@ -90,18 +91,30 @@ const deleteWish = async (req, res) => {
 const addToWishlist = async (req, res) => {
   try {
     const id = req.session.user;
-    const proId = req.query.id;
-    const existUser = await Wishlist.findOne({ userId: id });
+    const proId = req.query.proId;
+    const existUser = await Wishlist.findOne({
+      userId: mongoose.Types.ObjectId(id),
+    });
     const wishlistExist = await Wishlist.findOne({
       userId: id,
       products: { $elemMatch: { productId: proId } },
     });
     if (existUser) {
-      await Wishlist.updateOne(
-        { userId: id },
-        { $push: { products: { productId: proId } } }
-      );
-      res.redirect("/wishlist");
+      if (wishlistExist) {
+        res.json({ wish: true });
+      } else {
+        await Wishlist.updateOne(
+          { userId: id },
+          { $push: { products: { productId: proId } } }
+        );
+        const wishLenght = await Wishlist.aggregate([
+          { $match: { userId: mongoose.Types.ObjectId(id) } },
+          { $unwind: "$products" },
+          { $group: { _id: "$products" } },
+        ]);
+        const count = wishLenght.length;
+        res.json({ success: true, count });
+      }
     } else {
       const wishdata = new Wishlist({
         userId: id,
@@ -119,5 +132,5 @@ module.exports = {
   loadWishlist,
   addToWishlist,
   wishTocart,
-  deleteWish,
+  deleteWish
 };

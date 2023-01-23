@@ -7,6 +7,7 @@ const { log } = require('console');
 
 const loadOrder=async(req,res)=>{
     try {
+        const userExist=req.session.user
         const userId=req.session.user
         const orderId=req.query.id
         const userData=await User.findById(userId)
@@ -14,6 +15,7 @@ const loadOrder=async(req,res)=>{
         // console.log(newOrder,'8888888888');
         const orderTest = await Order.findOne({ user: userId }).populate("products.items.productId");
         const orderList=await Order.aggregate([{$match:{user:userId}}])
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
         const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
         // console.log(orderList,"@@@@@@@@@");
         // const order=await Order.find({user:userId})
@@ -34,7 +36,7 @@ const loadOrder=async(req,res)=>{
                     total:"$products.totalPrice"
                 }}
         ])
-        res.render('../Views/user/orderlist.ejs',{orderData,userData,newOrder,wishLenght,orderTest})
+        res.render('../Views/user/orderlist.ejs',{orderData,userData,newOrder,wishLenght,cartLenght,userExist,orderTest})
     } catch (error) {
         console.log(error);
     }
@@ -42,9 +44,11 @@ const loadOrder=async(req,res)=>{
 
 const orderView=async(req,res)=>{
     try {
-        const userId=req.session.user
+        const userExist=req.session.user
         const orderId=req.query.id
-
+        const userData=await User.findById(userExist)
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userExist)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userExist)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
         const newOrder=await Order.findById(orderId)
         const orderData=await Order.aggregate([
             {$match:{_id:mongoose.Types.ObjectId(orderId)}},
@@ -66,7 +70,7 @@ const orderView=async(req,res)=>{
         ])
         // console.log(orderData,'0000000000')
         // console.log(newOrder,'&&&&&&&');
-        res.render('../Views/user/orderview.ejs',{orderData,newOrder})
+        res.render('../Views/user/orderview.ejs',{orderData,newOrder,cartLenght,wishLenght,userData})
     } catch (error) {
         console.log(error);
     }

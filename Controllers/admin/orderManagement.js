@@ -74,17 +74,13 @@ const pdfData=async(req,res)=>{
         const salesDate=req.body
         const startDate=new Date(salesDate.from)
         const endDate=new Date(salesDate.to)
-        console.log(startDate+endDate);
         // const orderData = await Order.find({$gte:startDate,$let:endDate})
         const orderData=await Order.find({ $and: [ { date: {$gte: startDate, $lte : endDate} },{status: "Delivered"}]})
         const total=orderData.reduce((acc,curr)=>{
             acc=acc+curr.totalAmount
             return acc
         },0)
-        // req.session.pdf=orderData
-        console.log(total);
         res.render('../Views/admin/pdfDownload.ejs',{orderData,total})
-        // req.session.pdf=false
     } catch (error) {
         console.log(error);
     }

@@ -20,6 +20,8 @@ app.use(userPageRouter);
 app.use(adminPageRouter);
 
 app.all('*',(req,res)=>{
+    // console.log(req.session.admin,'1');
+    // console.log(req.session.user,'2');
     res.redirect('/error')
 })
 

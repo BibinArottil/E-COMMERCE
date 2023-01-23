@@ -205,7 +205,7 @@
                                 <p> <span class="font-weight-semi-bold">X</span> <%= cart.qty %> </p>
                             </div>
                             <div class="d-flex" style="width: 100px;">
-                                <p><%= cart.price %> </p>
+                                <p>$<%= cart.price %> </p>
                                 <% subtotal += cart.price %> 
                             </div>
                         </div>
@@ -223,7 +223,7 @@
                         <% if(price!=null) {%> 
                         <div class="d-flex justify-content-between mb-3 pt-1">
                             <h6 class="font-weight-medium">Subtotal</h6>
-                            <h6 class="font-weight-medium">₹ <span id="subtotal"><%= totalPrice[0].totalPrice %></span></h6>
+                            <h6 class="font-weight-medium">$<span id="subtotal"><%= totalPrice[0].totalPrice %></span></h6>
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Shipping</h6>
@@ -235,14 +235,14 @@
                         </div>
                         <div class="d-flex justify-content-between">
                             <h6 class="font-weight-medium">Coupon off amount :</h6>
-                            <h6 class="font-weight-medium"><span id="coupon_discount"></span></h6>
+                            <h6 class="font-weight-medium">$<span id="coupon_discount"></span></h6>
                         </div>
                         <input type="hidden" name="item" value="<%= cartLenght.lenght %> ">
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
                         <div class="d-flex justify-content-between mt-2">
                             <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold">₹<span id="total"><%= totalPrice[0].totalPrice %></span> </h5>
+                            <h5 class="font-weight-bold">$<span id="total"><%= totalPrice[0].totalPrice %></span> </h5>
                         <input type="hidden" name="subTotal" value="<%= totalPrice[0].totalPrice %>">
                         </div>
                     </div>
