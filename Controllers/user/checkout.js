@@ -216,7 +216,7 @@ const paymentSuccess=async(req,res)=>{
                         "payment_method": "paypal"
                     },
                     "redirect_urls": {
-                        "return_url": "http://localhost:5050/paypalsuccess",
+                        "return_url": "https://www.clickbuyshop.store/paypalsuccess",
                         "cancel_url": "http://localhost:5050/checkout"
                     },
                     "transactions": [{
