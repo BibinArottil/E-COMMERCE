@@ -157,5 +157,5 @@ module.exports={
     userVerification,
     userLogout,
     error404,
-    error500
+    error500,
 }

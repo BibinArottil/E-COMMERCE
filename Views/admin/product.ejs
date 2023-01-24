@@ -89,10 +89,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Coupens
                         </a>
-                        <a class="nav-link" href="/sales">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Sales Report
-                        </a>
+                  
                     </div>
                 </div>
 
@@ -189,9 +186,9 @@
                                     </td>
                                     <td style="width: 200px;">
                                         <% if(product.status==true){ %>
-                                            <a class="btn btn-danger mb-3" style="width: 80px;" href="/action-product?id=<%= product._id %>" role="button">Delete</a>
+                                            <a class="btn btn-danger mb-3" style="width: 80px;" onclick="return confirm ('Are you sure')" href="/action-product?id=<%= product._id %>" role="button">Delete</a>
                                         <% }else{ %>
-                                            <a class="btn btn-success" style="width: 80px;" href="/action-product?id=<%= product._id %>" role="button">Restore</a>
+                                            <a class="btn btn-success mb-3" style="width: 80px;" href="/action-product?id=<%= product._id %>" role="button">Restore</a>
                                         <% } %>
                                         <a class="btn btn-primary" style="width: 80px;" href="/edit-product?id=<%= product._id %>" role="button">Edit</a>
                                     </td>
@@ -201,7 +198,6 @@
                         </table>
                         <% } %> 
                      </div>
-    
             </main>
             <footer class="py-4 bg-light mt-auto">
                 <div class="container-fluid px-4">

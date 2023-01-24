@@ -41,7 +41,7 @@
             <div class="col-lg-8">
                 <div class="pb-5 form-group">
                     <h5 class="font-weight-semi-bold">Choose Address</h5>
-                    <select onchange="chooseaddress(this.value)" class="custom-select" >
+                    <select id="cars" onchange="chooseaddress(this.value)" class="custom-select" >
                         <option selected>choose</option>
                         <% address.forEach(function(address) {%> 
                         <option value="<%= address.id %>">
@@ -55,7 +55,8 @@
                             <%= address.mobile %>
                          </option>
                             <% }) %> 
-                    </select>
+                    </select>  
+
                 </div>
                 <div class="mb-4">
                     <h4 class="font-weight-semi-bold mb-4">Billing Address</h4>
@@ -67,31 +68,31 @@
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Name</label>
-                            <input id="name" name="name" class="form-control" type="text" >
+                            <input id="name" name="name" class="form-control" type="text" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Address</label>
-                            <input id="address" name="address" class="form-control" type="text">
+                            <input id="address" name="address" class="form-control" type="text" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>District</label>
-                            <input id="district" name="district" class="form-control" type="text">
+                            <input id="district" name="district" class="form-control" type="text" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>State</label>
-                            <input id="state" name="state" class="form-control" type="text">
+                            <input id="state" name="state" class="form-control" type="text" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Country</label>
-                            <input id="country" name="country" class="form-control" type="text">
+                            <input id="country" name="country" class="form-control" type="text" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Pin code</label>
-                            <input id="pin" name="pin" class="form-control" type="text">
+                            <input id="pin" name="pin" class="form-control" type="text" required>
                         </div>
                         <div class="col-md-6 form-group">
                             <label>Mobile No:</label>
-                            <input id="mobile" name="mobile" class="form-control" type="text">
+                            <input id="mobile" name="mobile" class="form-control" type="text" required>
                         </div>
                         <script>
                             // function chooseaddress(address){
@@ -286,7 +287,13 @@
     </div>
     </form>
     <!-- Checkout End -->
-
+    <script>
+        $("select.custom-select option").each(function(){
+    var text = $(this).text();
+    var truncated = text.substring(0, 10) + "..."; // truncate text to 30 characters
+    $(this).text(truncated);
+    });
+    </script>
 
     <!-- Footer Start -->
     <%- include('../layout/user/footer.ejs') %> 

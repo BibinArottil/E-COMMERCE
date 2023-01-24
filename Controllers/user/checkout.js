@@ -217,7 +217,7 @@ const paymentSuccess=async(req,res)=>{
                     },
                     "redirect_urls": {
                         "return_url": "https://www.clickbuyshop.store/paypalsuccess",
-                        "cancel_url": "http://localhost:5050/checkout"
+                        "cancel_url": "https://www.clickbuyshop.store/cart"
                     },
                     "transactions": [{
                         "item_list": {

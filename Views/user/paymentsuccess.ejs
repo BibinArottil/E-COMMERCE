@@ -28,36 +28,6 @@
 <body>
     <!-- Topbar Start -->
     <div class="container-fluid">
-        <!-- <div class="row bg-secondary py-2 px-xl-5">
-            <div class="col-lg-6 d-none d-lg-block">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark" href="">FAQs</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Help</a>
-                    <span class="text-muted px-2">|</span>
-                    <a class="text-dark" href="">Support</a>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center text-lg-right">
-                <div class="d-inline-flex align-items-center">
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-linkedin-in"></i>
-                    </a>
-                    <a class="text-dark px-2" href="">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a class="text-dark pl-2" href="">
-                        <i class="fab fa-youtube"></i>
-                    </a>
-                </div>
-            </div>
-        </div> -->
         <div class="row align-items-center  px-xl-5">
             <div class="col-lg-3 d-none d-lg-block">
                 <a href="" class="text-decoration-none">
@@ -65,16 +35,7 @@
                 </a>
             </div>
             <div class="col-lg-6 col-6 text-left">
-                <!-- <form>
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for products">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-transparent text-primary">
-                                <i class="fa fa-search"></i>
-                            </span>
-                        </div>
-                    </div>
-                </form> -->
+          
             </div>
             <div class="col-lg-3 col-6 text-right">
            
@@ -86,7 +47,7 @@
 
     <!-- Navbar Start -->
     <div class="container-fluid">
-        <div class="row border-top px-xl-5">
+        <div class="row border-top border-bottom px-xl-5">
    
             <div class="col-lg-12">
                 <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
@@ -147,17 +108,17 @@
 
     <!-- Contact Start -->
 
-    <div class="container h-100 mt-5 mb-5">
+    <div class="container h-100 mt-5">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card" style="border-radius: 15px;">
-            <div class="card-body p-5 ">
+          <div class="card mt-5" style="border-radius: 15px;">
+            <div class="card-body p-5 mb-2">
               <h1 class="text-uppercase text-center mb-2">Thank you</h1>
               <div class="d-flex justify-content-center mb-4">
                 <img class="img-fluid" style="width: 200px;" src="/Public/user/images/computer-icons.png" alt="">
               </div>
               <h3 class="text-uppercase text-center mb-2">Your order has been placed</h3>
-              <p>Order ID-<%= order._id %> </p>
+              <p>Order ID-<%=order._id %> </p>
                 <div class="d-flex justify-content-center">
                       <h4>
                         <a href="/shop">Back to shop</a>

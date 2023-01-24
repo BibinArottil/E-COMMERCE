@@ -124,7 +124,6 @@ const addToWishlist = async (req, res) => {
       });
       await wishdata.save();
     }
-    res.redirect("/wishlist");
   } catch (error) {
     console.log(error);
     res.redirect('/error')

@@ -89,10 +89,7 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
                             Coupens
                         </a>
-                        <a class="nav-link" href="/sales">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Sales Report
-                        </a>
+                   
                     </div>
                 </div>
 
@@ -179,7 +176,7 @@
                                     </td>
                                     <td>
                                         <% if(category.status==true){ %>
-                                                <a class="btn btn-danger" style="width: 70px;" href="/action-category?id=<%= category._id %>" role="button">Unlist</a>
+                                                <a class="btn btn-danger" style="width: 70px;" onclick="return confirm ('Are you sure')" href="/action-category?id=<%= category._id %>" role="button">Unlist</a>
                                             <% }else{ %>
                                                 <a class="btn btn-success" style="width: 70px;" href="/action-category?id=<%= category._id %>" role="button">List</a>
                                         <% } %>
