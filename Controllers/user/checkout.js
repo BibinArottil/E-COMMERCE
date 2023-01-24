@@ -73,7 +73,7 @@ const paymentSuccess=async(req,res)=>{
         }else{
             await User.updateOne({_id:userId},{$set:{"cart.totalPrice":req.body.totalpay}})
         }
-        const user=await User.aggregate([
+        const userCart=await User.aggregate([
             {$match:{_id:mongoose.Types.ObjectId(req.session.user)}},
             {$unwind:"$cart.items"},
             {$lookup:
@@ -97,7 +97,7 @@ const paymentSuccess=async(req,res)=>{
             if(req.body.couponid===''){
                 OrderCod={
                     user: userId,
-                    products: user,
+                    products: userCart,
                     subTotal:req.body.subTotal,
                     totalAmount:req.body.totalpay,
                     address:{
@@ -122,7 +122,7 @@ const paymentSuccess=async(req,res)=>{
             await Coupon.updateOne({_id:req.body.couponid},{$push:{users:{userId:userId}}})
             couponUsedOrderCod={
                 user: userId,
-                products: user,
+                products: userCart,
                 subTotal:req.body.subTotal,
                 totalAmount:req.body.totalpay,
                 address:{
@@ -189,7 +189,7 @@ const paymentSuccess=async(req,res)=>{
                   });
                 orderPaypal={
                     user: userId,
-                    products: user,
+                    products: userCart,
                     subTotal:req.body.subTotal,
                     totalAmount:req.body.totalpay,
                     address:{
@@ -249,7 +249,7 @@ const paymentSuccess=async(req,res)=>{
                   });
                   couponPaypal={
                     user: userId,
-                    products: user,
+                    products: userCart,
                     subTotal:req.body.subTotal,
                     totalAmount:req.body.totalpay,
                     address:{
