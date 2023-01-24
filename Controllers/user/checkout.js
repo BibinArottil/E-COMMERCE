@@ -188,7 +188,7 @@ const paymentSuccess=async(req,res)=>{
                     }
                   });
                 orderPaypal={
-                    user: userId,
+                    user: req.session.user,
                     products: userCart,
                     subTotal:req.body.subTotal,
                     totalAmount:req.body.totalpay,
