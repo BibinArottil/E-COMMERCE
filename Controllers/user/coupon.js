@@ -38,6 +38,7 @@ const couponCheck=async(req,res)=>{
         })
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 

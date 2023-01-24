@@ -6,21 +6,20 @@ const { default: mongoose } = require("mongoose");
 const loadWishlist = async (req, res) => {
   try {
     const existUser = req.session.user;
-    const userId = req.session.user;
-    const userData = await User.findById(userId);
-    const cart = await User.findOne({ _id: userId }).populate("cart.items");
+    const userData = await User.findById(existUser);
+    const cart = await User.findOne({ _id: existUser }).populate("cart.items");
     const cartData = cart.cart.items;
     const wishLenght = await Wishlist.aggregate([
-      { $match: { userId: mongoose.Types.ObjectId(userId) } },
+      { $match: { userId: mongoose.Types.ObjectId(existUser) } },
       { $unwind: "$products" },
       { $group: { _id: "$products" } },
     ]);
     const cartLenght = await User.aggregate([
-      { $match: { _id: mongoose.Types.ObjectId(userId) } },
+      { $match: { _id: mongoose.Types.ObjectId(existUser) } },
       { $unwind: "$cart.items" },
       { $group: { _id: "$cart.items" } },
     ]);
-    const wishData = await Wishlist.findOne({ userId: userId }).populate(
+    const wishData = await Wishlist.findOne({ userId: existUser }).populate(
       "products.productId"
     );
     res.render("../Views/user/wishlist.ejs", {
@@ -33,6 +32,7 @@ const loadWishlist = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
+    res.redirect('/error')
   }
 };
 
@@ -71,6 +71,7 @@ const wishTocart = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/error')
   }
 };
 
@@ -85,6 +86,7 @@ const deleteWish = async (req, res) => {
     res.redirect("/wishlist");
   } catch (error) {
     console.log(error);
+    res.redirect('/error')
   }
 };
 
@@ -125,6 +127,7 @@ const addToWishlist = async (req, res) => {
     res.redirect("/wishlist");
   } catch (error) {
     console.log(error);
+    res.redirect('/error')
   }
 };
 

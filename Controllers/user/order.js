@@ -39,6 +39,7 @@ const loadOrder=async(req,res)=>{
         res.render('../Views/user/orderlist.ejs',{orderData,userData,newOrder,wishLenght,cartLenght,userExist,orderTest})
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -73,6 +74,7 @@ const orderView=async(req,res)=>{
         res.render('../Views/user/orderview.ejs',{orderData,newOrder,cartLenght,wishLenght,userData})
     } catch (error) {
         console.log(error);
+        res.redirect('/server-error')
     }
 }
 
@@ -84,6 +86,7 @@ const orderCancel=async(req,res)=>{
         res.redirect('/order-view?id='+orderId)
     } catch (error) {
         console.log(error);
+        res.redirect('/server-error')
     }
 }
 

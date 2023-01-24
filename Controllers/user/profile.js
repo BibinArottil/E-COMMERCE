@@ -13,6 +13,7 @@ const loadProfile=async(req,res)=>{
     res.render('../Views/user/profile.ejs',{userData,existUser,cartLenght,wishLenght})
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -25,6 +26,7 @@ const loadAddress=async(req,res)=>{
         res.render('../Views/user/add-address.ejs',{existUser,userData,wishLenght,cartLenght})
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -45,6 +47,7 @@ const addAddress=async(req,res)=>{
        res.redirect('/profile')
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -56,6 +59,7 @@ const deleteAddress=async(req,res)=>{
         res.redirect('/profile')
     } catch (error) {
         console.log(error);
+        res.redirect('/server-error')
     }
 }
 
@@ -72,6 +76,7 @@ const editProfile=async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -88,6 +93,7 @@ const updateProfile=async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -100,13 +106,13 @@ const changePassword=async(req,res)=>{
         res.render('../Views/user/changepassword.ejs',{userData,existUser,cartLenght,wishLenght})
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
 const updatePassword=async(req,res)=>{
     try {
         const user=await User.findById(req.session.user)
-        console.log(user);
         const passwordMatch=await bcrypt.compare(req.body.currentpassword,user.password)
         if (passwordMatch==true) {
             const passwordHash=await bcrypt.hash(req.body.newpassword,10)
@@ -117,6 +123,7 @@ const updatePassword=async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 

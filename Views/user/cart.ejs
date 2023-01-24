@@ -21,9 +21,9 @@
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
             
-            <% if(cartData.length>0) {%> 
-
+            
             <div class="col-lg-8 table-responsive mb-5">
+                <% if(cartData.length>0) {%> 
 
                 <table class="table table-bordered text-center mb-0">
                     <thead class="bg-secondary text-dark">
@@ -47,44 +47,15 @@
                                     <div class="input-group-btn">
                                          
                                         <button class="btn btn-sm btn-primary"  <% if(cart.qty==1){ %> style="pointer-events:none;" <% } %> 
-                                            onclick="decqty('<%= cart.productId._id %>','<%= i %>')" role="button"><i class="fa fa-minus"></i></button>
-                                        <!-- <button class="btn btn-sm btn-primary btn-minus" type="submit" >
-                                        <i class="fa fa-minus"></i>
-                                        </button> -->
-                                        <script>
-                                            // function decqty(productId,i){
-                                            //     $.ajax({
-                                            //         url:'/cart-decQty',
-                                            //         method:'put',
-                                            //         data:{id:productId},
-                                            //         success: (res) =>{
-                                            //             // $(`#cartQty${i}`).html(res.data.existProduct.qty)
-                                            //             // $(`#cartPrice${i}`).html(res.data.existProduct.price)
-                                            //             location.reload()
-                                            //         }
-                                            //     })
-                                            // }
-                                        </script>
+                                            onclick="decqty('<%= cart.productId._id %>','<%= i %>')"><i class="fa fa-minus"></i></button>
+                                     
                                     </div>
                                 
                                          <span id="cartQty<%= i %>" class="form-control form-control-sm bg-secondary text-center" ><%= cart.qty %></span>
 
                                     <div class="input-group-btn">
-                                     <button class="btn btn-sm btn-primary" onclick="incqty('<%= cart.productId._id %>','<%= i %>')" role="button"><i class="fa fa-plus"></i></button>
-                                        <script>
-                                            // function incqty(productId,i){
-                                            //     $.ajax({
-                                            //         url:'/cart-incQty',
-                                            //         method:'put',
-                                            //         data:{id:productId},
-                                            //         success: (res) =>{
-                                            //             // $(`#cartQty${i}`).html(res.data.existProduct.qty)
-                                            //             // $(`#cartPrice${i}`).html(res.data.existProduct.price)
-                                            //             location.reload()
-                                            //         }
-                                            //     })
-                                            // }
-                                        </script>
+                                     <button class="btn btn-sm btn-primary" onclick="incqty('<%= cart.productId._id %>','<%= i %>')"><i class="fa fa-plus"></i></button>
+                                
                                     </div>
                                 </div>
                             </td>

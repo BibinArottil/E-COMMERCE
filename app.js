@@ -20,12 +20,12 @@ app.use(userPageRouter);
 app.use(adminPageRouter);
 
 app.all('*',(req,res)=>{
-    // console.log(req.session.admin,'1');
-    // console.log(req.session.user,'2');
-    res.redirect('/error')
+    if(req.session.user){
+        res.redirect('/error')
+    }else{
+        res.redirect('/errorAdmin')
+    }
 })
-
-
 
 const port = process.env.PORT
 app.listen(port, () => console.log(`Server is running at  http://localhost:${port}`))

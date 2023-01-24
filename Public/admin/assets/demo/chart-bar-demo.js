@@ -12,7 +12,7 @@ var myLineChart = new Chart(ctx, {
       label: "Revenue",
       backgroundColor: "rgba(2,117,216,1)",
       borderColor: "rgba(2,117,216,1)",
-      data: [6769, 0, 0, 0, 0, 0],
+      data: [<%= totalRevenue %>, 0, 0, 0, 0, 0],
     }],
   },
   options: {

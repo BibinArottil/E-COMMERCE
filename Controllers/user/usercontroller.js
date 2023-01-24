@@ -1,22 +1,32 @@
 const User=require("../../Model/user/userModel")
 const Product=require("../../Model/admin/productModel")
 const Wishlist=require("../../Model/user/wishlistModel")
-// const Category=require("../../Model/admin/categoryModel")
 const mailer=require('../../Utils/otp')
 const bcrypt=require('bcrypt')
 const { default: mongoose } = require("mongoose")
 const Banner = require("../../Model/admin/bannerModel")
 
 const userLogin=(req,res)=>{
-    res.render('../Views/user/userLogin.ejs')
+    try {
+        res.render('../Views/user/userLogin.ejs')
+    } catch (error) {
+        console.log(error);
+        res.redirect('/error')
+    }
 }
 
 const loadSignUp=(req,res)=>{
-    res.render('../Views/user/userSignUp.ejs')
+    try {
+        res.render('../Views/user/userSignUp.ejs')
+    } catch (error) {
+        console.log(error);
+        res.redirect('/error')
+    }
 }
 
 const insertUser=async(req,res)=>{
     try {
+        console.log('userdata');
         userData=req.body
         const email=req.body.email;
         const user=await User.findOne({email})
@@ -32,7 +42,6 @@ const insertUser=async(req,res)=>{
             }
             console.log(mailer.OTP);
             mailer.mailTransporter.sendMail(mailDetails,(err,data)=>{ 
-                console.log(data)
                 if(err){
                     console.log(err,'error');
                 }else{
@@ -43,6 +52,7 @@ const insertUser=async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -50,7 +60,6 @@ const otpVerfication=async(req,res)=>{
     try {
         if(req.body.otp==mailer.OTP){
             console.log(userData.email);
-            // const passwordHash=await bcrypt.hash(userData.password,10)
             const passwordHash=await bcrypt.hash(userData.password,10)
             const user1=new User({
                 name:userData.name,
@@ -65,6 +74,7 @@ const otpVerfication=async(req,res)=>{
         }
     } catch (error) {
         console.log(error);
+        res.redirect('/error')
     }
 }
 
@@ -72,7 +82,6 @@ const userVerification=async(req,res)=>{
   try {
     let email=req.body.email
     let password=req.body.password
-
     const user=await User.findOne({email:email})
     if(user){
         const passwordMatch=await bcrypt.compare(password,user.password)
@@ -92,29 +101,36 @@ const userVerification=async(req,res)=>{
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/error')
   }
 }
 
 const loadHome=async(req,res)=>{
         try {
-            existUser=req.session.user
-            const userId=req.session.user
-            const userData=await User.findById(userId)
-            const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
-            const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+            const existUser=req.session.user
+            const userData=await User.findById(existUser)
+            const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+            const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
             const banner=await Banner.find({status:true})
             await Product.find({status:true}).sort({_id:-1}).then((result)=>{
                 res.render('../Views/user/home.ejs',{details:result,existUser,cartLenght,wishLenght,userData,banner})
             }).catch((error)=>{
                 console.log(error);
+                res.redirect('/error')
             })
         } catch (error) {
             console.log(error);
+            res.redirect('/error')
         }   
 }
 
 const userSignUp=(req,res)=>{
-    res.render('../Views/user/userSignUp.ejs')
+    try {
+        res.render('../Views/user/userSignUp.ejs')
+    } catch (error) {
+        console.log(error);
+        res.redirect('/error')
+    }
 }
 
 const userLogout=(req,res)=>{

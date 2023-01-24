@@ -3,18 +3,15 @@ const User=require('../../Model/user/userModel')
 const Wishlist=require("../../Model/user/wishlistModel")
 const { default: mongoose } = require('mongoose')
 const Category = require('../../Model/admin/categoryModel')
-// const { search } = require('../../Routes/userRoute')
 
 const loadShop=async(req,res)=>{
     try {
         const existUser=req.session.user
-        const userId=req.session.user
-        const userData=await User.findById(userId)
-      
+        const userData=await User.findById(existUser)
         const category=await Category.find({status:true})
         const product=await Product.find()
-        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
-        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
         res.render('../Views/user/shop.ejs',{existUser,product,cartLenght,wishLenght,userData,category})
     } catch (error) {
         console.log(error);
@@ -25,10 +22,9 @@ const loadShop=async(req,res)=>{
 const searchProduct=async(req,res)=>{
   try {
     const existUser=req.session.user
-    const userId=req.session.user
-    const userData=await User.findById(userId)
-    const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
-    const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+    const userData=await User.findById(existUser)
+    const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+    const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
     const category=await Category.find({status:true})
     let search=req.query.search
     const product=await Product.find({name:{$regex: ".*"+search+"*.",$options:'i'}})
@@ -46,10 +42,9 @@ const searchProduct=async(req,res)=>{
 const searchCategory=async(req,res)=>{
   try {
     const existUser=req.session.user
-    const userId=req.session.user
-    const userData=await User.findById(userId)
-    const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userId)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
-    const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userId)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+    const userData=await User.findById(existUser)
+    const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+    const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
     const category=await Category.find({status:true})
     let search=req.query.id
     const product=await Product.find({category:search})

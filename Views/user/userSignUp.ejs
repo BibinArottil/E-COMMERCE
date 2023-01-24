@@ -4,9 +4,18 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign up</title>
+    <title>Click-Buy</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- <script type="text/javascript" src="/jquery/jquery-3.6.0.min.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js" integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo=" crossorigin="anonymous"></script>
 </head>
+<style>
+  .form-outline span{
+    position: relative;
+    font-size: 14px;
+    color: red;
+  }
+</style>
 <body>
     <section class="vh-100" style="background-color: #000000;">
   <div class="mask d-flex align-items-center h-100 gradient-custom-3">
@@ -14,29 +23,33 @@
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
-            <div class="card-body p-5">
-              <h2 class="text-uppercase text-center mb-3">Create an account</h2>
+            <div class="card-body">
+              <h2 class="text-uppercase text-center mb-2">Create an account</h2>
               
-              <form method="post" action="/signup">
-                <div class="form-outline mb-3">
+              <form method="post" action="/signup" id="form">
+                <div class="form-outline mb-2">
                     <label class="form-label" for="form3Example1cg">Name</label>
-                  <input type="text" id="name" name="name" class="form-control form-control-lg"/>
+                  <input type="text" id="name" name="name" class="form-control form-control-lg" onkeyup="validateName()"/>
+                  <span id="name-error"></span>
                 </div>
-                <div class="form-outline mb-3">
+                <div class="form-outline mb-2">
                     <label class="form-label" for="form3Example1cg">Phone No:</label>
-                    <input type="text" id="phone" name="phone_no" class="form-control form-control-lg"/>
+                    <input type="tel" id="phone" name="phone_no" class="form-control form-control-lg" onkeyup="validatePhone()"/>
+                    <span id="phone-error"></span>
                   </div>
 
-                <div class="form-outline mb-3">
+                <div class="form-outline mb-2">
                     <label class="form-label" for="form3Example3cg">Email</label>
-                  <input type="email" id="email" name="email" class="form-control form-control-lg"/>
+                  <input type="email" id="email" name="email" class="form-control form-control-lg" onkeyup="validateEmail()"/>
+                  <span id="email-error"></span>
                 </div>
 
-                <div class="form-outline mb-3">
+                <div class="form-outline mb-2">
                     <label class="form-label" for="form3Example4cg" >Password</label>
-                  <input type="password" id="password" name="password" class="form-control form-control-lg"/>
+                  <input type="password" id="passwords" name="password" class="form-control form-control-lg" onkeyup="validatePass()"/>
+                  <span id="pass-error"></span>
                 </div>
-                <div class="form-outline mb-3">
+                <div class="form-outline mb-2">
                   <label class="form-label" for="form3Example4cg" >Confirm password</label>
                 <input type="password" id="confirm_password" name="confirmpassword" class="form-control form-control-lg"/>
               </div>
@@ -45,12 +58,12 @@
                   <p style="color: red;"><%=locals.error%></p>
                   <p style="color: green;"><%=locals.success%></p>
                 </div>
+                
 
                 <div class="d-flex justify-content-center">
                   <button type="submit" id="create" 
                     class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
                 </div>
-
                 <p class="text-center text-muted mt-3 mb-0">Have already an account? <a href="/user-login"
                     class="fw-bold text-body"><u>Sign in here</u></a></p>
               </form>
@@ -62,11 +75,96 @@
   </div>
 </section>
 <script>
+    const nameError=document.getElementById('name-error')
+    const phoneError=document.getElementById('phone-error')
+    const emailError=document.getElementById('email-error')
+    const passwordError=document.getElementById('pass-error')
+    const form = document.getElementById('form')
+    function validateName(){
+			  var name = document.getElementById('name').value ;
+				 if(name.length == ""){
+				  nameError.innerHTML='Name is required'
+				name.focus()
+				 return false
+				}
+				if(!name.match(/^[A-Za-z]*\s{1}[A-Za-z]*$/)){
+			nameError.innerHTML ='Please enter valid name'
+			return false;
+				}
+				nameError.innerHTML = ''
+				return true;
+			}
+
+      function validatePhone(){
+			var phone =document.getElementById('phone').value;
+			if(phone.length == 0){
+				phoneError.innerHTML =' phone No: is required '
+				return false;
+			}
+			if(phone.length !== 10){
+				phoneError.innerHTML ='Phone No: should be 10 digits'
+				return false
+			}
+			if(!phone.match(/^[0-9]{10}$/)){
+				phoneError.innerHTML = 'Phone No: should be digits'
+				return false
+			}
+			phoneError.innerHTML = ''
+			return true;
+		}
+      function validateEmail(){
+		  var email = document.getElementById('email').value;
+		   
+		  if (email.length==0){
+			emailError.innerHTML = 'Email  required'
+			return false;
+		  }
+		  if(!email.match(/^[A-Za-z\._\-[0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/)){
+			emailError.innerHTML = 'Email Invalid'
+			return false;
+		  }
+		  emailError.innerHTML = '';
+			return true;
+		}
+    function validatePass(){
+		  var passwords = document.getElementById('passwords').value;
+      if(passwords.length == 0){
+				passwordError.innerHTML =' Password is required'
+				return false;
+			}
+		  if(passwords.length < 3 ){
+			passwordError.innerHTML = 'Password is required [above 8 character]'
+			password.focus()
+			return false;
+		  }
+		  passwordError.innerHTML = '';
+			return true;
+		  } 
+
+        
+        form.addEventListener('submit',(e)=>{
+          e.preventDefault()
+          let validName = validateName()
+          let validPhone= validatePhone()
+          let validEmail=validateEmail()
+          let validPass=validatePass()
+
+
+          if(validName === true && validPhone === true && validEmail === true && validPass === true){
+            $('#form').submit()
+
+        }
+        })
+    
+
+
+
+
       if ( window.history.replaceState ) {
 window.history.replaceState( null, null, window.location.href );
 }
 
-var password = document.getElementById("password")
+var password = document.getElementById("passwords")
   , confirm_password = document.getElementById("confirm_password");
 
 function validatePassword(){
