@@ -156,7 +156,7 @@ const paymentSuccess=async(req,res)=>{
                     },
                     "redirect_urls": {
                         "return_url": "https://www.clickbuyshop.store/paypalsuccess",
-                        "cancel_url": "http://localhost:5050/checkout"
+                        "cancel_url": "https://www.clickbuyshop.store/checkout"
                     },
                     "transactions": [{
                         "item_list": {
@@ -188,7 +188,7 @@ const paymentSuccess=async(req,res)=>{
                     }
                   });
                 orderPaypal={
-                    user: mongoose.Types.ObjectId(userId),
+                    user: userId,
                     products: userCart,
                     subTotal:req.body.subTotal,
                     totalAmount:req.body.totalpay,
