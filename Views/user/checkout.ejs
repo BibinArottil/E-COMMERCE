@@ -7,6 +7,7 @@
     <div class="container-fluid bg-secondary">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 100px">
             <h1 class="font-weight-semi-bold text-uppercase mb-1">Checkout</h1>
+        
         </div>
     </div>
     <!-- Page Header End --> 
@@ -15,20 +16,7 @@
     <form action="/payment" method="post">
     <div class="container-fluid pt-5">
         <div class="row px-xl-5">
-                    <% address.forEach(function(address) {%> 
-                    <option value="<%= address.id %>">
-                        <%= address.addresstype %>,
-                        <%= address.name %>,
-                        <%= address.address %>,
-                        <%= address.district %>,
-                        <%= address.state %>,
-                        <%= address.country %>
-                        <%= address.pin %>,
-                        <%= address.mobile %>
-                     </option>
-                        <% }) %> 
-                </select>
-            </div> -->
+ 
             <div class="col-lg-8">
                 <div class="pb-5 form-group">
                     <h5 class="font-weight-semi-bold">Choose Address</h5>
@@ -121,6 +109,7 @@
                             </div>
                         </div>
                         <% }) %> 
+                        
                         <hr class="mt-0">
                         <% if(price!=null) {%> 
                         <div class="d-flex justify-content-between mb-3 pt-1">
@@ -172,10 +161,7 @@
                             </div>
                         </div>
                         <div class="">
-                            <!-- <div class="custom-control custom-radio">
-                                <input type="radio" class="custom-control-input" name="payment" id="banktransfer">
-                                <label class="custom-control-label" for="banktransfer">Bank Transfer</label>
-                            </div> -->
+                    
                         </div>
                     </div>
                     <div class="card-footer border-secondary bg-transparent">
