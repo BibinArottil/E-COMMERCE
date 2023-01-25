@@ -111,7 +111,7 @@
                                   <form action="/insert-product" method="post" enctype="multipart/form-data">
                                     <div class="mb-3">
                                       <label for="recipient-name" class="col-form-label">Image</label>
-                                      <input type="file" name="image" class="form-control" required>
+                                      <input type="file" id="file" name="image" onchange="fileValidate()" class="form-control" required>
                                     </div>
                                     <div class="mb-3">
                                         <label for="recipient-name" class="col-form-label">Name</label>
@@ -240,6 +240,16 @@
         if ( window.history.replaceState ) {
 window.history.replaceState( null, null, window.location.href );
 }
+function fileValidate(){
+        let fileInput=document.getElementById('file')
+        let filePath=fileInput.value
+        let fileType=/(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if(!fileType.exec(filePath)){
+            alert("Please select a valid image file")
+            fileInput.value='';
+            return false
+        }
+    }
   </script>
 </body>
 

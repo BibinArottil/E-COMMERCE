@@ -41,11 +41,11 @@ const loadOrder=async(req,res)=>{
 
 const orderView=async(req,res)=>{
     try {
-        const userExist=req.session.user
+        const existUser=req.session.user
         const orderId=req.query.id
-        const userData=await User.findById(userExist)
-        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(userExist)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
-        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(userExist)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
+        const userData=await User.findById(existUser)
+        const cartLenght=await User.aggregate([{$match:{_id:mongoose.Types.ObjectId(existUser)}},{$unwind:"$cart.items"},{$group:{_id:"$cart.items"}}])
+        const wishLenght=await Wishlist.aggregate([{$match:{userId:mongoose.Types.ObjectId(existUser)}},{$unwind:"$products"},{$group:{_id:"$products"}}])
         const newOrder=await Order.findById(orderId)
         const orderData=await Order.aggregate([
             {$match:{_id:mongoose.Types.ObjectId(orderId)}},
@@ -62,7 +62,7 @@ const orderView=async(req,res)=>{
                 }}
         ])
      
-        res.render('../Views/user/orderview.ejs',{orderData,newOrder,cartLenght,wishLenght,userData})
+        res.render('../Views/user/orderview.ejs',{orderData,newOrder,cartLenght,wishLenght,userData,existUser})
     } catch (error) {
         console.log(error);
         res.redirect('/server-error')

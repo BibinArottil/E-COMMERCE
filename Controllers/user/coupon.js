@@ -5,7 +5,6 @@ const User=require("../../Model/user/userModel")
 
 const couponCheck=async(req,res)=>{
     try {
-        console.log("coupon checking");
         const userId=req.session.user
         const code=req.body.input.toUpperCase()
         let total=req.body.total

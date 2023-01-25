@@ -29,7 +29,7 @@ const searchProduct=async(req,res)=>{
     let search=req.query.search
     const product=await Product.find({name:{$regex: ".*"+search+"*.",$options:'i'}})
     if(product.length>0){
-      res.render('../Views/user/shop.ejs',{product,wishLenght,cartLenght,userData,category})
+      res.render('../Views/user/shop.ejs',{product,wishLenght,cartLenght,userData,category,existUser})
     }else{
       res.render('../Views/user/shop.ejs',{userData,existUser,product,wishLenght,cartLenght,category,message:"Product not found!"})
     }
@@ -49,7 +49,7 @@ const searchCategory=async(req,res)=>{
     let search=req.query.id
     const product=await Product.find({category:search})
     if(product.length>0){
-      res.render('../Views/user/shop.ejs',{product,wishLenght,cartLenght,userData,category})
+      res.render('../Views/user/shop.ejs',{product,wishLenght,cartLenght,userData,category,existUser})
     }else{
       res.render('../Views/user/shop.ejs',{userData,existUser,product,wishLenght,cartLenght,category,message:"Product not found!"})
     }

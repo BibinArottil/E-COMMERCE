@@ -22,7 +22,7 @@
                     style="color: #393f81;">Sign up</a></p> -->
                     <div class="form-outline mb-2">
                         <label class="form-label" for="form3Example1cg">Image</label>
-                      <input type="file"  name="image" class="form-control form-control-lg" />
+                      <input type="file" id="file"  name="image" onchange="fileValidate()" class="form-control form-control-lg" />
                     </div>
                 <div class="form-outline mb-2">
                     <label class="form-label" for="form3Example1cg">Name</label>
@@ -89,6 +89,16 @@
       if ( window.history.replaceState ) {
 window.history.replaceState( null, null, window.location.href );
 }
+function fileValidate(){
+        let fileInput=document.getElementById('file')
+        let filePath=fileInput.value
+        let fileType=/(\.jpg|\.jpeg|\.png|\.gif)$/i;
+        if(!fileType.exec(filePath)){
+            alert("Please select a valid image file")
+            fileInput.value='';
+            return false
+        }
+    }
 </script>
 </body>
 </html>

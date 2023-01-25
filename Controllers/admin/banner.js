@@ -6,6 +6,7 @@ const bannerView = async (req, res) => {
     res.render("../Views/admin/banner.ejs", { banner });
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 };
 
@@ -19,6 +20,7 @@ const insertBanner = async (req, res) => {
     res.redirect("/banner");
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 };
 
@@ -33,6 +35,7 @@ const bannerAction = async (req, res) => {
     res.redirect("/banner");
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 };
 
@@ -42,6 +45,7 @@ const editBanner = async (req, res) => {
     res.render("../Views/admin/editbanner.ejs", { banner });
   } catch (error) {
     console.log(error);
+    res.redirect('/admin-error')
   }
 };
 
@@ -65,6 +69,7 @@ const updateBanner = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 };
 

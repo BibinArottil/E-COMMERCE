@@ -5,7 +5,12 @@ const Product=require("../../Model/admin/productModel");
 const Order = require("../../Model/user/orderModel");
 
 const adminLogin = (req, res) => { 
+  try {
     res.render("../Views/admin/adminLogin.ejs");
+  } catch (error) {
+    console.log(error);
+    res.redirect('/errorAdmin')
+  }
 };
 
 const adminVerification = async (req, res) => {
@@ -28,6 +33,7 @@ const adminVerification = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 };
 
@@ -42,6 +48,7 @@ const loadUser = async (req, res) => {
       });
     } catch (error) {
       console.log(error);
+      res.redirect('/errorAdmin')
     }
 };
 
@@ -62,6 +69,7 @@ const updateUser = async (req, res) => {
     res.redirect("/user-manage");
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 };
 
@@ -83,6 +91,7 @@ const loadAdminHome = async (req, res) => {
     res.render('../Views/admin/adminhome.ejs',{customers,products,totalOrder,totalRevenue,packed,processing,shipped,delivered,cancel})
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 };
 
@@ -97,6 +106,7 @@ const category = async (req, res) => {
       });
     } catch (error) {
       console.log(error);
+      res.redirect('/errorAdmin')
     }
 };
 
@@ -114,6 +124,7 @@ const insertCategory=async(req,res)=>{
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 }
 
@@ -128,6 +139,7 @@ const editCategory = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/admin-error')
   }
 };
 
@@ -148,6 +160,7 @@ const listUnlistCategory = async (req, res) => {
     res.redirect("/category");
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 };
 
@@ -158,6 +171,7 @@ const updateCategory = async (req, res) => {
     res.redirect("/category");
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 }
 
@@ -178,6 +192,7 @@ const product=(req,res)=>{
       })
   } catch (error) {
       console.log(error);
+      res.redirect('/errorAdmin')
   }
 }
 
@@ -195,6 +210,7 @@ const insertProduct=async(req,res)=>{
     res.redirect('/product')
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 }
 
@@ -209,6 +225,7 @@ const listUnlistProduct=async(req,res)=>{
     res.redirect('/product')
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 }
 
@@ -224,6 +241,7 @@ const editProduct=async(req,res)=>{
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/admin-error')
   }
 }
 
@@ -254,6 +272,7 @@ const updateProduct=async(req,res)=>{
     }
   } catch (error) {
     console.log(error);
+    res.redirect('/errorAdmin')
   }
 }
 
@@ -261,6 +280,14 @@ const adminLogout=(req,res)=>{
     req.session.destroy()
     res.redirect('/admin')
     console.log("admin session destroy");
+}
+
+const error404=(req,res)=>{
+  res.render('../Views/admin/404error.ejs')
+}
+
+const error500=(req,res)=>{
+  res.render('../Views/admin/500error.ejs')
 }
 
 module.exports = {
@@ -279,5 +306,7 @@ module.exports = {
   listUnlistProduct,
   editProduct,
   updateProduct,
-  adminLogout
+  adminLogout,
+  error404,
+  error500
 };

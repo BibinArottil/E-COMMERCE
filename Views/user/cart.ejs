@@ -22,7 +22,7 @@
         <div class="row px-xl-5">
             <% if(cartData.length>0) {%> 
             <div class="col-lg-8 table-responsive mb-5">
-                <table class="table table-bordered text-center mb-0">
+                <table id="table" class="table table-bordered text-center mb-0">
                     <thead class="bg-secondary text-dark">
                         <tr>
                             <th>Products</th>
@@ -42,9 +42,14 @@
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
-                                         
-                                        <button class="btn btn-sm btn-primary"  <% if(cart.qty==1){ %> style="pointer-events:none;" <% } %> 
+                                         <%if(cart.qty ==1){%>
+                                            <button class="btn btn-sm btn-primary " hidden 
                                             onclick="decqty('<%= cart.productId._id %>','<%= i %>')"><i class="fa fa-minus"></i></button>
+                                        <%}else{%>
+                                            <button class="btn btn-sm btn-primary" 
+                                            onclick="decqty('<%= cart.productId._id %>','<%= i %>')"><i class="fa fa-minus"></i></button>
+                                        <%}%>
+                                        
                                      
                                     </div>
                                 
@@ -70,7 +75,7 @@
             </div>
             <div class="col-lg-4">
                 <% if(price!=null) { %> 
-                <div class="card border-secondary mb-5">
+                <div id="cartSum" class="card border-secondary mb-5">
                     <form action="/checkout" method="post">
                     <div class="card-header bg-secondary border-0">
                         <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>

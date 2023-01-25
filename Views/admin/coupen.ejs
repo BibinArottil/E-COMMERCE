@@ -101,7 +101,7 @@
             <main>
                 <!-- content start -->
                 <div class="container-fluid px-4 mt-3">
-                        <h1 class="mb-4">Banner Management</h1>
+                        <h1 class="mb-4">Coupon Management</h1> 
 
                         <button type="button" class="btn btn-info mb-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-bs-whatever="@mdo">Add coupen</button>
                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -130,7 +130,7 @@
                                     <input type="date" name="createdate" class="form-control" required>
                                   </div>
                                   <div class="mb-3">
-                                    <label for="recipient-name" class="col-form-label">Min purchase amount</label>
+                                    <label for="recipient-name" class="col-form-label">Expire date</label>
                                     <input type="date" name="expiredate" class="form-control" required>
                                   </div>
                                 
@@ -150,7 +150,7 @@
                                     <th>No :</th>
                                     <th>code</th>
                                     <th>Discount</th>
-                                    <th>Min Amount</th>
+                                    <th>Min purchase Amount</th>
                                     <th>Create Date</th>
                                     <th>Expire Date</th>
                                     <th>Status</th>
@@ -162,8 +162,8 @@
                                     <% coupen.forEach((list,i)=>{ %> 
                                     <td><%= i+1 %> </td>
                                     <td><%= list.code %> </td>
-                                    <td><%= list.discount %></td>
-                                    <td><%= list.minpurchaseamount %></td>
+                                    <td>$<%= list.discount %></td>
+                                    <td>$<%= list.minpurchaseamount %></td>
                                     <% let date = list.createdate %>
                                     <%  const dgfate = new Date(date); %>
                                    <% const createdate = dgfate.toLocaleDateString(); %> 

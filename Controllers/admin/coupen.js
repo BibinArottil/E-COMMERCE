@@ -7,11 +7,11 @@ const viewCoupen=async(req,res)=>{
     } catch (error) {
         console.log(error);
     }
+    res.redirect('/errorAdmin')
 }
 
 const addCoupen=async(req,res)=>{
     try {
-        console.log(req.body);
         const code=req.body.code.toUpperCase()
         const newCoupen=new Coupen({
             code:code,
@@ -24,6 +24,7 @@ const addCoupen=async(req,res)=>{
         res.redirect('/coupen')
     } catch (error) {
         console.log(error);
+        res.redirect('/errorAdmin')
     }
 }
 
@@ -38,6 +39,7 @@ const blockUnblock=async(req,res)=>{
         res.redirect('/coupen')
     } catch (error) {
         console.log(error);
+        res.redirect('/errorAdmin')
     }
 }
 
@@ -47,13 +49,12 @@ const editCoupen=async(req,res)=>{
         res.render('../Views/admin/editcoupen.ejs',{coupen})
     } catch (error) {
         console.log(error);
+        res.redirect('/admin-error')
     }
 }
 
 const updateCoupen=async(req,res)=>{
     try {
-        console.log(req.body);
-        console.log(req.body.id);
         const code=req.body.code.toUpperCase()
         await Coupen.findByIdAndUpdate(req.body.id,{$set:{
             code:code,
@@ -64,9 +65,9 @@ const updateCoupen=async(req,res)=>{
         }
     })
        res.redirect('/coupen')
-        
     } catch (error) {
         console.log(error);
+        res.redirect('/errorAdmin')
     }
 }
 

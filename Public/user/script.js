@@ -4,9 +4,8 @@ function incqty(productId,i){
         method:'put',
         data:{id:productId},
         success: (res) =>{
-            // $(`#cartQty${i}`).html(res.data.existProduct.qty)
-            // $(`#cartPrice${i}`).html(res.data.existProduct.price)
-            location.reload()
+            $("#table").load(location.href + " #table")
+                $("#cartSum").load(location.href + " #cartSum")
         }
     })
 }
@@ -17,9 +16,8 @@ function decqty(productId,i){
         method:'put',
         data:{id:productId},
         success: (res) =>{
-            // $(`#cartQty${i}`).html(res.data.existProduct.qty)
-            // $(`#cartPrice${i}`).html(res.data.existProduct.price)
-            location.reload()
+            $("#table").load(location.href + " #table")
+                $("#cartSum").load(location.href + " #cartSum")
         }
     })
 }
@@ -60,7 +58,6 @@ var inputValue=$("#couponCode").val()
                 let subtotal=$('#subtotal').html()
                 discount=parseInt(discount)
                 subtotal=parseInt(subtotal)
-                // let discountedPrice=(discount*subtotal)/100
                 subtotal=subtotal-discount
                 $('#total').html(subtotal)
                 $('#coupon_code').html(code)
