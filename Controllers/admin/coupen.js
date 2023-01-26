@@ -6,8 +6,8 @@ const viewCoupen=async(req,res)=>{
         res.render('../Views/admin/coupen.ejs',{coupen})
     } catch (error) {
         console.log(error);
+        res.redirect('/errorAdmin')
     }
-    res.redirect('/errorAdmin')
 }
 
 const addCoupen=async(req,res)=>{
